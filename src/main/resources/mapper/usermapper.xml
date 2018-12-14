@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduation.dao.UserDao">
+
+
+    <insert id="stuRegister">
+  	insert into student (stunum,school,type,password,name,grade,email) values (#{stu.stunum},#{stu.school},#{stu.type},#{stu.password},#{stu.name},#{stu.grade},#{stu.email})
+  </insert>
+    <insert id="teaRegister">
+  	insert into teacher (teanum,school,type,password,name,email) values (#{tea.teanum},#{tea.school},#{tea.type},#{tea.password},#{tea.name},#{tea.email})
+  </insert>
+    <select id="stuLogin" resultType="user">
+  	select * from student where stunum=#{num}
+  </select>
+    <select id="teaLogin" resultType="user">
+  select * from teacher where stunum=#{num}
+  </select>
+
+    <select id="getstuInformation" resultType="user">
+  select * from student where id=#{id}
+  </select>
+    <select id="getteaInformation" resultType="user">
+  select * from teacher where id=#{id}
+  </select>
+
+    <update id="updateStuInformation">
+        UPDATE student
+        <trim prefix="set" suffixOverrides=",">
+            <if test="user.gender!=null">gender=#{user.gender},</if>
+            <if test="user.age!=null">age=#{user.age},</if>
+            <if test="user.professional!=null">professional=#{user.professional},</if>
+            <if test="user.depart!=null">depart=#{user.depart},</if>
+            <if test="user.telephone!=null">telephone=#{user.telephone},</if>
+            <if test="user.email!=null">email=#{user.email},</if>
+            <if test="user.password!=null">password=#{user.password},</if>
+            <if test="user.name!=null">name=#{user.name}</if>
+        </trim>
+        where id=#{id}
+    </update>
+    <update id="updateTeaInformation">
+        update teacher
+        <trim prefix="set" suffixOverrides=",">
+            <if test="user.gender!=null">gender=#{user.gender},</if>
+            <if test="user.age!=null">age=#{user.age},</if>
+            <if test="user.professional!=null">professional=#{user.professional},</if>
+            <if test="user.depart!=null">depart=#{user.depart},</if>
+            <if test="user.telephone!=null">telephone=#{user.telephone},</if>
+            <if test="user.email!=null">email=#{user.email},</if>
+            <if test="user.password!=null">password=#{user.password},</if>
+            <if test="user.name!=null">name=#{user.name}</if>
+        </trim>
+        where id=#{id}
+    </update>
+
+</mapper>

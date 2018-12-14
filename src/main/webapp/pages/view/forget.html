@@ -1,0 +1,22 @@
+<div class="forget">
+ <div class="contain">
+   <div class="put">
+     <span  class="icon glyphicon glyphicon-earphone" aria-hidden="true"></span>
+     <input class="bg" type="text" ng-model="user.phone" validator="require,phone" placeholder="输入手机号">
+   </div>
+   <div class="put">
+     <span  class="icon glyphicon glyphicon-lock" aria-hidden="true"></span>
+     <input class="bg" type="password" ng-model="user.pw" validator="required,pw" placeholder="输入新密码">
+   </div>
+    <div class="msg">
+      <input type="text" ng-model="user.msg" placeholder="短信验证码">
+      <span class="post {{time?'disabled':''}}"  ng-click="time?1==1:send();">{{time?time:'发送短信'}}</span>
+    </div>
+
+   <div class="btns">
+     <button class="loginbtn" ng-click="submit()">去登录</button>
+     <button ui-sref="login" class="canclebtn">取消</button>
+   </div>
+
+ </div>
+</div>

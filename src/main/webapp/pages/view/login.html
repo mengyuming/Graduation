@@ -1,0 +1,25 @@
+<div class="login">
+ <div class="contain" name="form">
+   <select class="btn-block" name="identify" id="identify" ng-model="user.identify" ng-init="user.identify='1'">
+     <option value="stu" ng-selected="user.identify==1">学生</option>
+     <option value="tch" ng-selected="user.identify==2">老师</option>
+   </select>
+   <div class="put">
+     <span  class="icon glyphicon glyphicon-user" aria-hidden="true"></span>
+     <input class="bg" type="text" ng-model="user.id" validator="required,id" placeholder="输入账号">
+   </div>
+   <div class="put">
+     <span  class="icon glyphicon glyphicon-lock" aria-hidden="true"></span>
+     <input class="bg" type="password" ng-model="user.pw" validator="required,pw" placeholder="输入密码">
+   </div>
+
+   <div class="forgetpw">
+     <span ui-sref="forget">忘记密码?</span>
+   </div>
+
+   <div class="btns">
+     <button class="loginbtn" ng-click="post();">登录</button>
+     <button ui-sref="register" class="regbtn">注册</button>
+   </div>
+ </div>
+</div>

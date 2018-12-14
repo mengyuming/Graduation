@@ -1,0 +1,22 @@
+<div app-head-bar text="排名 "></div>
+<div class="rankList">
+  <div  class="table-responsive">
+    <table class="table">
+      <tr>
+        <th class="active">#</th>
+        <th class="success">课程</th>
+        <th class="warning">工号</th>
+        <th class="danger">老师</th>
+        <th class="info">得分</th>
+      </tr>
+      <tr ng-repeat = "item in items">
+        <td>{{item.index}}</td>
+        <td>{{item.cour}}</td>
+        <td>{{item.id}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.score}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div app-footer></div>

@@ -1,0 +1,33 @@
+<div class="register">
+ <div class="contain">
+   <select class="btn-block" name="identify" id="identify" ng-model="user.identify" ng-init="user.identify='1'">
+     <option value="stu" ng-selected="user.identify==1">学生</option>
+     <option value="tch" ng-selected="user.identify==2">老师</option>
+   </select>
+   <div class="put">
+     <span  class="icon glyphicon glyphicon-flag" aria-hidden="true"></span>
+     <input class="bg" type="text" validator="required,chinese" ng-model="user.school" placeholder="输入学校名称">
+   </div>
+   <div class="put">
+     <span  class="icon glyphicon glyphicon-earphone" aria-hidden="true"></span>
+     <input class="bg" type="text" ng-model="user.phone" validator="required,phone" placeholder="输入手机号">
+   </div>
+   <div class="put">
+     <span  class="icon glyphicon glyphicon-user" aria-hidden="true"></span>
+     <input class="bg" type="text" ng-model="user.id" validator="required,id" placeholder="输入账号">
+   </div>
+   <div class="put">
+     <span  class="icon glyphicon glyphicon-lock" aria-hidden="true"></span>
+     <input class="bg" type="password" ng-model="user.pw1" validator="required,pw" placeholder="设置6位以上的密码">
+   </div>
+   <div class="put">
+     <span  class="icon glyphicon glyphicon-lock" aria-hidden="true"></span>
+     <input class="bg" type="password" ng-model="user.pw2" validator="required" placeholder="确认密码">
+     <span class="samepw" ng-show="user.pw1!=user.pw2">两次密码不一致</span>
+   </div>
+   <div class="btns">
+     <button ui-sref="login" class="loginbtn">登录</button>
+     <button class="regbtn">注册</button>
+   </div>
+ </div>
+</div>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduation.dao.CourseDao">
+
+<select id="getCourseByTeaName" resultType="course">
+	select * from course where tid in (select id from teacher where name=#{message})
+</select>
+<select id="getCourseByTeaNo" resultType="course">
+	select * from course where tid in (select id from teacher where teanum=#{message})
+</select>
+<select id="getCourseByName" resultType="course">
+	select * from course where cname=#{message}
+</select>
+<select id="getTeaCourse" resultType="course">
+	select * from course where tid=#{id}
+</select>
+<select id="getStuCourse" resultType="course">
+	select * from course where pname=#{professional} and grade=#{grade}
+</select>
+</mapper>

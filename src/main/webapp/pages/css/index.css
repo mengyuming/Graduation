@@ -1,0 +1,450 @@
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+html,
+body,
+span,
+div,
+h1,
+h2,
+h3,
+ul,
+li,
+p,
+a,
+img,
+input,
+button {
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+}
+a,
+img {
+  display: block;
+}
+ul {
+  list-style: none;
+}
+a,
+input,
+button {
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  border: none;
+  outline: none;
+}
+.head {
+  background: #505050;
+  height: 2.56rem;
+  padding-top: 0.64rem;
+  text-align: center;
+}
+.head .search {
+  width: 60%;
+  height: 1.28rem;
+  line-height: 3.41333333rem;
+  padding-left: 0.42666667rem;
+  border-radius: 4px;
+  vertical-align: center;
+}
+.head .btn {
+  padding: 0;
+  width: 1.92rem;
+  height: 1.28rem;
+  background: yellow;
+  border-radius: 4px;
+  border: none;
+  margin-top: -0.128rem;
+}
+.head select {
+  background: yellow;
+  width: 2.56rem;
+  height: 1.28rem;
+  border-radius: 4px;
+  margin: 0 0.128rem;
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  height: 2.13333333rem;
+  background: #505050;
+  width: 100%;
+}
+.footer ul {
+  text-align: center;
+}
+.footer ul li {
+  float: left;
+  width: 33.33333%;
+  line-height: 1.70666667rem;
+  color: white;
+  padding: 0.21333333rem 0;
+}
+.footer ul li.select {
+  background: white;
+  color: #505050;
+}
+.footer ul li span {
+  display: block;
+  line-height: 0.85333333rem;
+}
+.content {
+  padding: 0 0.42666667rem;
+  background: #505050;
+}
+.content ul {
+  width: 100%;
+  height: 2.13333333rem;
+  text-align: center;
+  line-height: 2.13333333rem;
+  margin: 0;
+  background: #505050;
+}
+.content ul.listhead {
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+}
+.content ul li {
+  color: white;
+  float: left;
+  width: 33.33333%;
+}
+.headBar {
+  height: 2.13333333rem;
+  width: 100%;
+  background: #505050;
+  text-align: center;
+  font-size: 0.85333333rem;
+  line-height: 2.13333333rem;
+  position: relative;
+}
+.headBar span {
+  color: white;
+}
+.headBar span.fl {
+  position: absolute;
+  top: 0.64rem;
+  left: 0.64rem;
+}
+.mine {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 2.13333333rem;
+  bottom: 2.13333333rem;
+}
+.mine .login {
+  position: absolute;
+  height: 1.70666667rem;
+  background: yellow;
+  line-height: 1.70666667rem;
+  text-align: center;
+  border-radius: 4px;
+  top: 19.2rem;
+}
+.mine .me {
+  text-align: center;
+}
+.mine .me img {
+  width: 4.26666667rem;
+  height: 4.26666667rem;
+  margin: 2.13333333rem auto 0.42666667rem;
+}
+.mine .tch {
+  margin: 0 1.024rem;
+}
+.mine .tch span {
+  border-left: 1px solid #ddd;
+}
+.mine .tch .myTch {
+  width: 6.82666667rem;
+  padding: 0.42666667rem;
+  background: white;
+  text-align: center;
+}
+.mine .my {
+  padding: 0.42666667rem 0.85333333rem 0;
+}
+.mine .my .list {
+  height: 1.49333333rem;
+  border-bottom: 1px solid #ddd;
+  line-height: 1.49333333rem;
+}
+.mine .my .list .glyphicon {
+  margin-right: 0.42666667rem;
+}
+.mine .my .list .course {
+  color: steelblue;
+}
+.mine .my .list .message {
+  color: orange;
+}
+.mine .my .list .per {
+  color: greenyellow;
+}
+.mine .my .list .fr {
+  float: right;
+  margin-top: 0.29866667rem;
+}
+.login {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: url("../img/background.png") no-repeat;
+  background-size: 100% 100%;
+}
+.login .contain {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 12.8rem;
+  height: 11.94666667rem;
+}
+.login .contain select {
+  height: 2.13333333rem;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  outline: none;
+  text-align: center;
+  text-align-last: center;
+}
+.login .contain .put {
+  height: 2.13333333rem;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  line-height: 2.13333333rem;
+  text-align: center;
+  border-top: 1px solid white;
+}
+.login .contain .put .icon {
+  height: 1.70666667rem;
+  width: 1.92rem;
+  color: white;
+}
+.login .contain .put .bg {
+  background: rgba(0, 0, 0, 0.3);
+  padding-left: 0.64rem;
+  width: 10.66666667rem;
+  color: white;
+}
+.login .contain .put .bg::-webkit-input-placeholder {
+  color: white;
+}
+.login .contain .forgetpw {
+  margin: 0.42666667rem 0.42666667rem 0 0;
+}
+.login .contain .forgetpw span {
+  color: yellow;
+  float: right;
+}
+.login .contain .btns {
+  width: 12.8rem;
+  margin-top: 2.56rem;
+}
+.login .contain .btns button {
+  width: 100%;
+  height: 1.70666667rem;
+  border-radius: 4px;
+}
+.login .contain .btns button.loginbtn {
+  border: 1px solid rgba(255, 255, 0, 0.3);
+  background: yellow;
+}
+.login .contain .btns button.regbtn {
+  margin-top: 0.64rem;
+  background: rgba(255, 255, 0, 0.3);
+  border: 1px solid yellow;
+}
+.register {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: url("../img/background.png") no-repeat;
+  background-size: 100% 100%;
+}
+.register .contain {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 12.8rem;
+  height: 17.06666667rem;
+}
+.register .contain select {
+  height: 2.13333333rem;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  outline: none;
+  text-align: center;
+  text-align-last: center;
+}
+.register .contain .put {
+  height: 2.13333333rem;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  line-height: 2.13333333rem;
+  text-align: center;
+  border-top: 1px solid white;
+}
+.register .contain .put .samepw {
+  color: red;
+  position: absolute;
+  right: 0;
+}
+.register .contain .put .icon {
+  height: 1.70666667rem;
+  width: 1.92rem;
+  color: white;
+}
+.register .contain .put .bg {
+  background: rgba(0, 0, 0, 0.3);
+  padding-left: 0.64rem;
+  width: 10.66666667rem;
+  color: white;
+}
+.register .contain .put .bg::-webkit-input-placeholder {
+  color: white;
+}
+.register .contain .btns {
+  width: 12.8rem;
+  margin-top: 2.13333333rem;
+}
+.register .contain .btns button {
+  width: 100%;
+  height: 1.70666667rem;
+  border-radius: 4px;
+}
+.register .contain .btns button.loginbtn {
+  background: rgba(255, 255, 0, 0.3);
+  border: 1px solid yellow;
+}
+.register .contain .btns button.regbtn {
+  margin-top: 0.64rem;
+  border: 1px solid rgba(255, 255, 0, 0.3);
+  background: yellow;
+}
+.forget {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: url("../img/background.png") no-repeat;
+  background-size: 100% 100%;
+}
+.forget .contain {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 12.8rem;
+  height: 10.66666667rem;
+}
+.forget .contain .put {
+  height: 2.13333333rem;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  line-height: 2.13333333rem;
+  text-align: center;
+}
+.forget .contain .put:first-child {
+  border-bottom: 1px solid white;
+}
+.forget .contain .put .icon {
+  height: 1.70666667rem;
+  width: 1.92rem;
+  color: white;
+}
+.forget .contain .put .bg {
+  background: rgba(0, 0, 0, 0.3);
+  padding-left: 0.64rem;
+  width: 10.66666667rem;
+  color: white;
+}
+.forget .contain .put .bg::-webkit-input-placeholder {
+  color: white;
+}
+.forget .contain .msg {
+  height: 1.70666667rem;
+  margin-top: 0.85333333rem;
+}
+.forget .contain .msg input {
+  height: 1.70666667rem;
+  background: rgba(0, 0, 0, 0.5);
+  float: left;
+  border-radius: 4px;
+  padding-left: 0.64rem;
+}
+.forget .contain .msg input::-webkit-input-placeholder {
+  color: white;
+}
+.forget .contain .msg .post {
+  height: 1.70666667rem;
+  width: 2.98666667rem;
+  text-align: center;
+  line-height: 1.70666667rem;
+  float: right;
+  border-radius: 4px;
+  border: 1px solid yellow;
+  color: yellow;
+}
+.forget .contain .msg .post.disabled {
+  color: #d4d4d4;
+  border: 1px solid #d4d4d4;
+}
+.forget .contain .btns {
+  width: 12.8rem;
+  margin-top: 2.56rem;
+}
+.forget .contain .btns button {
+  width: 100%;
+  height: 1.70666667rem;
+  border-radius: 4px;
+}
+.forget .contain .btns button.loginbtn {
+  border: 1px solid rgba(255, 255, 0, 0.3);
+  background: yellow;
+}
+.forget .contain .btns button.canclebtn {
+  margin-top: 0.64rem;
+  background: rgba(255, 255, 0, 0.3);
+  border: 1px solid yellow;
+}
+.center {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+.clearfix {
+  content: "";
+  display: block;
+  clear: both;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+.ng-invalid + span {
+  position: absolute;
+  right: 0;
+  color: red;
+}
