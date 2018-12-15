@@ -2,24 +2,17 @@ package com.graduation.service;
 
 
 import com.graduation.bean.User;
-import com.graduation.config.MyAuthenticationFailHandler;
-import com.graduation.config.MyAuthenticationProvider;
-import com.graduation.config.MyAuthenticationSuccessHandler;
+import com.graduation.Handler.MyAuthenticationProvider;
 import com.graduation.controller.EmailMessageController;
 import com.graduation.dao.UserDao;
-import com.sun.org.apache.bcel.internal.generic.NEW;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -29,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 @Service
@@ -102,7 +94,7 @@ public class UserService {
         Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         System.out.println("3");
 
-        if(authenticate!=null){
+        if(!authenticate.equals(usernamePasswordAuthenticationToken)){
             //创建一个SecurityContext对象，并且设置上一步得到的Authentication
             SecurityContextHolder.getContext().setAuthentication(authenticate);
             HttpSession session = request.getSession();

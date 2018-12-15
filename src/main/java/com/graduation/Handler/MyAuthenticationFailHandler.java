@@ -1,15 +1,10 @@
-package com.graduation.config;
+package com.graduation.Handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.istack.internal.logging.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.util.UrlUtils;
-import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +25,7 @@ public class MyAuthenticationFailHandler extends SimpleUrlAuthenticationFailureH
         log.info("username=>" + request.getParameter("username"));
 
         if (RETURN_TYPE.equals("html")) {
-            super.setDefaultFailureUrl("/"); // 登录失败，跳转到登录界面
+            super.setDefaultFailureUrl("/myerror.html"); // 登录失败，跳转到登录界面
             super.onAuthenticationFailure(request, response, exception);
         } else {
             Map<String, Object> map = new HashMap<>();

@@ -55,14 +55,12 @@ public class UserController {
     @ApiOperation("用户登陆")
 	@RequestMapping(value="/logins",method=RequestMethod.POST)
     public void userLogin(String username, String password, String type, HttpServletRequest request, HttpServletResponse response) {
-//        String encodepassword = passwordEncoder.encode(password);
         System.out.println(username+"---"+password+"---"+type);
             myUserDetailService.setType(type);
         userService.testUserLogin(username, password,type,request,response);
         User user = (User)request.getSession().getAttribute("user");
         System.out.println("查询session中的user");
-        System.out.println(user.toString());
-        //return "redirect:/pages/index.html";
+
 	}
 
 	//获取已经登陆的用户的信息

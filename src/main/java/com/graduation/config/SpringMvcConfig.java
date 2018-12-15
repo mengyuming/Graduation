@@ -1,18 +1,27 @@
 package com.graduation.config;
 
-import com.baomidou.mybatisplus.extension.plugins.SqlExplainInterceptor;
+import com.graduation.Handler.MyAuthenticationFailHandler;
+import com.graduation.Handler.MyAuthenticationProvider;
+import com.graduation.Handler.MyAuthenticationSuccessHandler;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
 public class SpringMvcConfig extends WebMvcConfigurerAdapter{
+
+
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -21,8 +30,10 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter{
         super.addViewControllers(registry);
     }
 
+
+
     @Bean
-    public MyAuthenticationProvider myAuthenticationProvider(){
+    public AuthenticationProvider myAuthenticationProvider(){
         return new MyAuthenticationProvider();
     }
 
