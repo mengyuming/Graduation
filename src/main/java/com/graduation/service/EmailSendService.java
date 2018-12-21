@@ -25,7 +25,7 @@ public class EmailSendService {
         //生成随机验证码
         Integer i = (int) ((Math.random() * 9 + 1) * 100000);
         SimpleMailMessage message=new SimpleMailMessage();
-        message.setFrom("517868436@qq.com");
+        message.setFrom("mym517868436@126.com");
         message.setSubject("注册验证码");
         message.setText(i.toString());
         message.setTo(email);

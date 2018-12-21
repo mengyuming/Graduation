@@ -11,11 +11,13 @@ import com.graduation.tools.ControMessage;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 
-@Controller
+@RestController
 @RequestMapping("/course")
 public class CourseController {
 
@@ -23,9 +25,8 @@ public class CourseController {
 	private CourseService courseService;
 
     private ControMessage controMessage=new ControMessage();
-	@RequestMapping("/choice")
+	@GetMapping("/choice")
     @ApiOperation("获取需要评教的课程")
-	@ResponseBody
 	public ControMessage getChoice(String type,String messages) {
 		if(type!=null) {
 			List<Course> course = courseService.getChoice(type,messages);
@@ -38,12 +39,12 @@ public class CourseController {
         return controMessage;
 	}
 	
-	@RequestMapping("/getCourseList")
+	@GetMapping("/getCourseList")
     @ApiOperation("获取用户个人课表")
-	@ResponseBody
 	public ControMessage getCourseList(HttpServletRequest request) {
 		User user=(User)request.getSession().getAttribute("user");
         List<Course> courseList = courseService.getCourseList(user);
+        System.out.println(courseList);
         if(courseList!=null){
             controMessage.contrlSuccess().setMessage("获取课表信息成功").setAll().add(courseList);
             return controMessage;

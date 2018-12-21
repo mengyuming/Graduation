@@ -35,14 +35,16 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
         http.authorizeRequests()
                 .antMatchers("/user/logins").permitAll()
                 .antMatchers("/user/userRegister").permitAll()
-                .antMatchers("/pages/**").hasAnyRole("学生","老师")
+                .antMatchers("/user/getbackPasswordForEmail").permitAll()
+                .antMatchers("/pages/**").permitAll()
                 .antMatchers("/index/**").hasAnyRole("学生","老师")
                 .antMatchers("/user/**").hasAnyRole("学生","老师")
                 .antMatchers("/course/**").hasAnyRole("学生","老师")
+                .antMatchers("/email/**").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                .loginPage("/login.html");
+                .loginPage("/pages/index.html#/login");
 
     }
 }

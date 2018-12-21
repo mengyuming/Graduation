@@ -6,9 +6,11 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Controller
+@RequestMapping("/email")
 public class EmailMessageController {
 
     @Autowired
@@ -26,7 +28,7 @@ public class EmailMessageController {
         //生成随机验证码
         Integer i = (int) ((Math.random() * 9 + 1) * 100000);
         SimpleMailMessage message=new SimpleMailMessage();
-        message.setFrom("517868436@qq.com");
+        message.setFrom("mym517868436@126.com");
         message.setSubject("注册验证码");
         message.setText(i.toString());
         message.setTo(to);

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
+@ResponseBody
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -65,7 +66,7 @@ public class UserController {
 
 	//获取已经登陆的用户的信息
     @ApiOperation("获取已经登陆的用户的信息")
-	@RequestMapping(value = "/getMine", method = RequestMethod.POST)
+	@GetMapping(value = "/getMine")
 	public ControMessage getMine(HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
         if(user!=null){
@@ -78,7 +79,7 @@ public class UserController {
 
 	//获取用户的详细信息
     @ApiOperation("获取用户的详细信息")
-	@RequestMapping(value = "/getInformation", method = RequestMethod.POST)
+	@GetMapping(value = "/getInformation")
 	public ControMessage getInformation(HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
         User newuser = userService.getInformation(user);
@@ -92,23 +93,24 @@ public class UserController {
 
 	// 更新用户信息
     @ApiOperation("更新用户信息")
-	@RequestMapping("/updateinformation")
+	@RequestMapping(value = "/updateinformation",method = RequestMethod.POST)
 	public ControMessage updateInformation(String gender, String age, String depart, String professional, String telephone,
-			HttpServletRequest request) {
+			String email,HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
-		userService.updateInformation(user,gender,age,depart,professional,telephone);
+		userService.updateInformation(user,gender,age,depart,professional,telephone,email);
         controMessage.contrlSuccess().setMessage("更新成功");
         return controMessage;
 	}
 
     //发送验证码
-    @ApiOperation("根据用户名获取注册时天蝎的邮箱，然后发送验证码")
+    @ApiOperation("根据用户名获取注册时填写的邮箱，然后发送验证码")
     @GetMapping("/getbackPasswordForEmail")
     public ControMessage getbackPasswordForEmail(String number,String type){
 
         User user = userService.getbackPasswordForEmail(number, type);
         if(user!=null){
             String email=user.getEmail();
+            System.out.println(user);
             emailSendService.sendEmail(email);
             controMessage.contrlSuccess().setMessage("验证码已经发送");
             return controMessage;
@@ -118,7 +120,7 @@ public class UserController {
     }
     //找回密码，修改密码
     @ApiOperation("检查验证码是否匹配，进而更改密码")
-    @RequestMapping("/getbackPassword")
+    @RequestMapping(value="/getbackPassword",method = RequestMethod.POST)
     public ControMessage getbackPassword(String number,String type,String message,String password){
         User user = userService.getbackPasswordForEmail(number, type);
         if(user!=null){

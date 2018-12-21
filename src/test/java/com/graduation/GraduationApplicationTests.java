@@ -17,7 +17,9 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -37,14 +39,14 @@ public class GraduationApplicationTests {
 	@Test
 	public void contextLoads() {
         //生成随机验证码
-//        Integer i = (int) ((Math.random() * 9 + 1) * 100000);
-//        SimpleMailMessage message=new SimpleMailMessage();
-//        message.setFrom("517868436@qq.com");
-//        message.setSubject("注册验证码");
-//        message.setText(i.toString());
-//        message.setTo("517868436@qq.com");
-//        System.out.println(javaMailSender);
-//        javaMailSender.send(message);
+        Integer i = (int) ((Math.random() * 9 + 1) * 100000);
+        SimpleMailMessage message=new SimpleMailMessage();
+        message.setFrom("517868436@qq.com");
+        message.setSubject("注册验证码");
+        message.setText(i.toString());
+        message.setTo("517868436@qq.com");
+        System.out.println(javaMailSender);
+        javaMailSender.send(message);
 
         String encode = passwordEncoder.encode("111");
         System.out.println("第一次对111加密"+encode);
@@ -66,6 +68,15 @@ public class GraduationApplicationTests {
 //        System.out.println(id.getRecords());
 //        System.out.println(id.getSize());
 //        System.out.println(id.getTotal());
+    }
+
+    @Test
+    public void testJava8(){
+        testJava("qqqqq",(w) -> w.toUpperCase());
+    }
+
+    public void testJava(String s,Function<String,String> f){
+        System.out.println(f.apply(s));
     }
 
 }

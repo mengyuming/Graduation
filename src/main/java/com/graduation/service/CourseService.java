@@ -34,7 +34,7 @@ public class CourseService {
     }
 
 
-    @Cacheable(key="#result.id")
+    //@Cacheable(key="#result.id")
     @Transactional(rollbackFor = Exception.class)
     public List<Course> getCourseList(User user) {
         String type = user.getType();

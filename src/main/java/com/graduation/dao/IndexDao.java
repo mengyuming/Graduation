@@ -5,14 +5,26 @@ import com.graduation.bean.Index;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Mapper
 public interface IndexDao extends BaseMapper<Index>{
-    public void addAllIndex(Index indexsystem);
 
-    public List<Index> getMyIndex(String usernumber);
 
-    public List<Index> getOtherIndex(String usernumber);
 
-    public List<Index> getAllIndex();
+    public void addSquestion(Index index);
+
+    public void addTquestion(Index index);
+
+    public CopyOnWriteArrayList<Index> getSquestionMyIndex(String usernumber);
+
+    public CopyOnWriteArrayList<Index> getTquestionMyIndex(String usernumber);
+
+    public CopyOnWriteArrayList<Index> getSquestionOtherIndex(String usernumber);
+
+    public CopyOnWriteArrayList<Index> getTquestionOtherIndex(String usernumber);
+
+    public CopyOnWriteArrayList<Index> getAllSquestionIndex();
+
+    public CopyOnWriteArrayList<Index> getAllTquestionIndex();
 }

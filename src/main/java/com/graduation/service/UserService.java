@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
 
 
 @Service
-@CacheConfig(cacheNames = "user")
+//@CacheConfig(cacheNames = "user")
 public class UserService {
 
 	@Autowired
@@ -93,17 +93,8 @@ public class UserService {
         //得到的是验证登陆信息之后，重新封装的创建一个UsernamePasswordAuthenticationToken对象
         Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         System.out.println("3");
-
+        HttpSession session = request.getSession();
         if(!authenticate.equals(usernamePasswordAuthenticationToken)){
-            //创建一个SecurityContext对象，并且设置上一步得到的Authentication
-            SecurityContextHolder.getContext().setAuthentication(authenticate);
-            HttpSession session = request.getSession();
-
-            //将上一部得到的SecurityContext对象放入session中。到此，自定义用户信息的处理已经完成
-            session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
-            System.out.println(usernamePasswordAuthenticationToken);
-            System.out.println("--------------结束认证");
-            System.out.println("将用户信息存储在session中");
             User user = userLogin(stunum, type);
             System.out.println(user.toString());
             session.setAttribute("user",user);
@@ -113,7 +104,6 @@ public class UserService {
                 e.printStackTrace();
             }
         }
-
         else{
             System.out.println("--------------------------------null");
             try{
@@ -125,7 +115,7 @@ public class UserService {
 
     }
 
-    @Cacheable(key="#result.id")
+    //@Cacheable(key="#result.id")
     @Transactional(rollbackFor = Exception.class)
     public User getInformation(User user) {
         if (user != null && user.getType().equals("学生")) {
@@ -139,16 +129,17 @@ public class UserService {
       return null;
     }
 
-    @CachePut(key="#result.id")
+    //@CachePut(key="#result.id")
     @Transactional(rollbackFor = Exception.class)
     public void updateInformation(User user,String gender,String age,
-                                  String depart,String professional,String telephone) {
+                                  String depart,String professional,String telephone,String email) {
         if(user!=null&&user.getType() != null) {
             user.setGender(gender);
             user.setAge(age);
             user.setDepart(depart);
             user.setProfessional(professional);
             user.setTelephone(telephone);
+            user.setEmail(email);
             if(user.getType().equals("老师")){
                 userDao.updateTeaInformation(user);
             }else if(user.getType().equals("学生")){
@@ -182,7 +173,7 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    @Cacheable(key="#result.id")
+    //@Cacheable(key="#result.id")
     public User userLogin(String stunum, String type) {
         if (type != null && type.equals("学生")) {
             User user = userDao.stuLogin(stunum);

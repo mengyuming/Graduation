@@ -9,10 +9,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-@Controller
+@RestController
 @RequestMapping("/index")
 public class IndexController {
 
@@ -23,15 +27,15 @@ public class IndexController {
 
     @ApiOperation("获取所有的指标得分")
     @PostMapping("/addAllIndex")
-    public ControMessage addAllIndex(Index indexsystem){
-        indexsystemService.addAllIndex(indexsystem);
+    public ControMessage addAllIndex(Index indexsystem, HttpServletRequest request){
+        indexsystemService.addAllIndex(indexsystem,request);
         controMessage.contrlSuccess().setMessage("评价成功");
         return controMessage;
     }
     @ApiOperation("获取我所参与过的所有的评价信息【我是评价者，不是被评者】")
     @GetMapping("/getMyIndex")
-    public ControMessage getMyIndex(){
-        List<Index> myIndex = indexsystemService.getMyIndex();
+    public ControMessage getMyIndex(HttpServletRequest request){
+        CopyOnWriteArrayList<Index> myIndex = indexsystemService.getMyIndex(request);
 
         if(myIndex!=null&&myIndex.size()>0){
             controMessage.contrlSuccess().setMessage("获取信息成功").setAll().add(myIndex);
@@ -43,8 +47,8 @@ public class IndexController {
 
     @ApiOperation("获取我被评价的所有信息【我是被评者】")
     @GetMapping("/getOtherIndex")
-    public ControMessage getOtherIndex(){
-        List<Index> myIndex = indexsystemService.getOtherIndex();
+    public ControMessage getOtherIndex(HttpServletRequest request){
+        CopyOnWriteArrayList<Index> myIndex = indexsystemService.getOtherIndex(request);
 
         if(myIndex!=null&&myIndex.size()>0){
             controMessage.contrlSuccess().setMessage("获取信息成功").setAll().add(myIndex);
@@ -57,7 +61,7 @@ public class IndexController {
     @ApiOperation("获得所有的评教的结果")
     @GetMapping("getAllIndex")
     public ControMessage getAllIndex(){
-        List<Index> allIndex = indexsystemService.getAllIndex();
+        ConcurrentHashMap<String,List<Index>> allIndex = indexsystemService.getAllIndex();
         if(allIndex!=null&&allIndex.size()>0){
             controMessage.contrlSuccess().setMessage("获取信息成功").setAll().add(allIndex);
             return  controMessage;
@@ -65,4 +69,6 @@ public class IndexController {
         controMessage.contrlError().setMessage("还没有人参与过评教！");
         return  controMessage;
     }
+
+
 }
