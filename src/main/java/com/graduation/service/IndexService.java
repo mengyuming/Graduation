@@ -10,10 +10,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -24,7 +26,7 @@ public class IndexService {
     private IndexDao indexsystemDao;
 
     @Transactional(rollbackFor = Exception.class)
-    public void addAllIndex(Index index,HttpServletRequest request) {
+    public String addAllIndex(Index index, HttpServletRequest request, ServletContext app) {
         index.setTimes(LocalDate.now().toString());
         User user = (User)request.getSession().getAttribute("user");
         UserDetails userDetail = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -33,12 +35,86 @@ public class IndexService {
         String usernumber = user.getStunum();
         if(usernumber!=null && user!=null){
             if(user.getType().equals("学生")){
-                indexsystemDao.addSquestion(index);
+                Map map = (Map)app.getAttribute("squestion");
+                if(map!=null){
+                    //获取权重集合
+                    List weight =(List) map.get("weight");
+                    //获取输入层到隐含层的权重
+                    List<Double> list1 = (List<Double>)weight.get(0);
+                    //获取隐含层到输出层的权重
+                    List<Double> list2 = (List<Double>)weight.get(1);
+                    //计算temp
+                    Double temp1=0.0;
+                    Double temp2=0.0;
+                    double d1 = list1.get(0) * index.getQ1();
+                    double d2 = list1.get(1) * index.getQ2();
+                    double d3 = list1.get(2) * index.getQ3();
+                    double d4 = list1.get(3) * index.getQ4();
+                    double d5 = list1.get(4) * index.getQ5();
+                    double d6 = list1.get(5) * index.getQ6();
+                    double d7 = list1.get(6) * index.getQ7();
+                    double d8 = list1.get(7) * index.getQ8();
+                    double d9 = list1.get(8) * index.getQ9();
+                    double d10 = list1.get(9) * index.getQ10();
+                    double d11 = list1.get(10) * index.getQ11();
+                    double d12= list1.get(11) * index.getQ12();
+                    double d13= list1.get(12) * index.getQ13();
+                    double d14= list1.get(13) * index.getQ14();
+                    double d15= list1.get(14) * index.getQ15();
+                    double d16= list1.get(15) * index.getQ16();
+                    double d17= list1.get(16) * index.getQ17();
+                    double d18= list1.get(17) * index.getQ18();
+                    double d19= list1.get(18) * index.getQ19();
+                    double d20= list1.get(19) * index.getQ20();
+                    temp1=d1+d2+d3+d4+d5+d6+d7+d8+d9+d10+d11+d12+d13+d14+d15+d16+d17+d18+d19+d20;
+                    //获取偏置
+                    Double[] biase =(Double[]) map.get("biase");
+                    double hideLayer = 1 / (1 + Math.pow(Math.E, -(temp1 + biase[0])));
+                    temp2=hideLayer*list2.get(0);
+                    double output = 1 / (1 + Math.pow(Math.E, -(temp2 + biase[1])));
+                    index.setTotal(output);
+                    indexsystemDao.addSquestion(index);
+                    return "success";
+                }
             }else if(user.getType().equals("老师")){
-                indexsystemDao.addTquestion(index);
+                Map map = (Map)app.getAttribute("tquestion");
+                if(map!=null){
+                    //获取权重集合
+                    List weight =(List) map.get("weight");
+                    //获取输入层到隐含层的权重
+                    List<Double> list1 = (List<Double>)weight.get(0);
+                    //获取隐含层到输出层的权重
+                    List<Double> list2 = (List<Double>)weight.get(1);
+                    //计算temp
+                    Double temp1=0.0;
+                    Double temp2=0.0;
+                    double d1 = list1.get(0) * index.getQ1();
+                    double d2 = list1.get(1) * index.getQ2();
+                    double d3 = list1.get(2) * index.getQ3();
+                    double d4 = list1.get(3) * index.getQ4();
+                    double d5 = list1.get(4) * index.getQ5();
+                    double d6 = list1.get(5) * index.getQ6();
+                    double d7 = list1.get(6) * index.getQ7();
+                    double d8 = list1.get(7) * index.getQ8();
+                    double d9 = list1.get(8) * index.getQ9();
+                    double d10 = list1.get(9) * index.getQ10();
+                    double d11 = list1.get(10) * index.getQ11();
+                    double d12= list1.get(11) * index.getQ12();
+                    double d13= list1.get(12) * index.getQ13();
+                    double d14= list1.get(13) * index.getQ14();
+                    temp1=d1+d2+d3+d4+d5+d6+d7+d8+d9+d10+d11+d12+d13+d14;
+                    //获取偏置
+                    Double[] biase =(Double[]) map.get("biase");
+                    double hideLayer = 1 / (1 + Math.pow(Math.E, -(temp1 + biase[0])));
+                    temp2=hideLayer*list2.get(0);
+                    double output = 1 / (1 + Math.pow(Math.E, -(temp2 + biase[1])));
+                    index.setTotal(output);
+                    indexsystemDao.addTquestion(index);
+                    return "success";
+                }
             }
         }
-
+        return "error";
     }
 
     @Transactional(rollbackFor = Exception.class)

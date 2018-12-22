@@ -8,6 +8,7 @@ import com.graduation.bean.User;
 import com.graduation.dao.CourseDao;
 import com.graduation.dao.UserDao;
 import com.graduation.service.UserService;
+import com.graduation.tools.HelpTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,13 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 @RunWith(SpringRunner.class)
@@ -36,6 +42,9 @@ public class GraduationApplicationTests {
 
     @Autowired
     CourseDao courseDao;
+
+    @Autowired
+    HelpTest helpTest;
 	@Test
 	public void contextLoads() {
         //生成随机验证码
@@ -77,6 +86,66 @@ public class GraduationApplicationTests {
 
     public void testJava(String s,Function<String,String> f){
         System.out.println(f.apply(s));
+    }
+
+    @Test
+    public void testBp(){
+        BufferedWriter bufferedWriter=null;
+        File newFile1= new File("E:/bp/test1.txt");
+
+        FileWriter fileWriter=null;
+        try {
+//            if(!newFile1.getParentFile().exists()){
+//                newFile1.getParentFile().mkdirs();
+//            }
+//
+//            if(!newFile2.exists()){
+//                newFile2.createNewFile();
+//            }
+//            if(!newFile1.exists()){
+//                newFile1.createNewFile();
+//            }
+//            fileWriter = new FileWriter(newFile1);
+//            bufferedWriter=new BufferedWriter(fileWriter);
+//            bufferedWriter.write("0.2,");
+//            bufferedWriter.write("0.4,");
+//            bufferedWriter.write("0.6,");
+//            bufferedWriter.write("0.5\n");
+//            bufferedWriter.write("0.3,");
+//            bufferedWriter.write("0.1,");
+//            bufferedWriter.write("0.6,");
+//            bufferedWriter.write("0.5\n");
+//            bufferedWriter.write("0.4,");
+//            bufferedWriter.write("0.2,");
+//            bufferedWriter.write("0.5,");
+//            bufferedWriter.write("0.6\n");
+//            bufferedWriter.write("0.8,");
+//            bufferedWriter.write("0.2,");
+//            bufferedWriter.write("0.3,");
+//            bufferedWriter.write("0.6\n");
+//            fileWriter=new FileWriter(newFile2);
+//            bufferedWriter=new BufferedWriter(fileWriter);
+//            bufferedWriter.write("0.4-");
+//            bufferedWriter.write("0.4-");
+//            bufferedWriter.write("0.4\n");
+            ConcurrentHashMap<String, List> map = helpTest.predict(newFile1.getPath(), 3);
+            List<List<Double>> weight = map.get("weight");
+            for(List list:weight){
+                list.stream().forEach(System.out::println);
+            }
+            List biase = map.get("biase");
+            biase.stream().forEach(System.out::println);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+//            try {
+////                fileWriter.close();
+////            } catch (IOException e) {
+////                e.printStackTrace();
+////            }
+        }
+
     }
 
 }

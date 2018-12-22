@@ -14,7 +14,7 @@ import java.util.Random;
  * 
  *         创建时间：2014-6-13 下午3:26:55
  */
-@Component
+
 public class NeuralLayer {
 	private static Random r = new Random(10);
 	// 神经单元层号,第0层表示输入层

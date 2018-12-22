@@ -3,7 +3,7 @@ package com.graduation.tools;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-@Component
+
 public class Test {
 
 	private double[] data;

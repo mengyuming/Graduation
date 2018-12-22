@@ -39,6 +39,7 @@ public class Index {
     private Double q18;
     private Double q19;
     private Double q20;
+    private Double total;
 
     @Override
     public String toString() {
@@ -69,6 +70,7 @@ public class Index {
                 ", q18=" + q18 +
                 ", q19=" + q19 +
                 ", q20=" + q20 +
+                ", total=" + total +
                 '}';
     }
 
@@ -176,6 +178,10 @@ public class Index {
         this.q20 = q20;
     }
 
+    public void setTotal(Double total) {
+        this.total = total;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -278,5 +284,9 @@ public class Index {
 
     public Double getQ20() {
         return q20;
+    }
+
+    public Double getTotal() {
+        return total;
     }
 }
