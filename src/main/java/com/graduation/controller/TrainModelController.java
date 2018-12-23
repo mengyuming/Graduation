@@ -3,6 +3,7 @@ package com.graduation.controller;
 import com.graduation.bean.Index;
 import com.graduation.service.IndexService;
 import com.graduation.tools.HelpTest;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ public class TrainModelController {
     @Autowired
     private IndexService indexService;
 
+    @ApiOperation("训练权重占比")
     @GetMapping("/trainModel")
     public Object trainModel(String type, HttpServletRequest request){
         ServletContext servletContext = request.getServletContext();

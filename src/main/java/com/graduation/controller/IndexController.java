@@ -35,12 +35,10 @@ public class IndexController {
     @Autowired
     private IndexService indexsystemService;
 
-    @Autowired
-    private HelpTest helpTest;
-
     private ControMessage controMessage=new ControMessage();
 
 
+    @ApiOperation("测试获取的权重值以及偏置值")
     @GetMapping("/testBp")
     public void helpTest(HttpServletRequest request){
         System.out.println("查询权重，偏置");
@@ -114,7 +112,7 @@ public class IndexController {
     }
 
 
-    @ApiOperation("到处导出所有结果为excel")
+    @ApiOperation("导出所有评价结果为excel")
     @GetMapping("/downloadData")
     public void downloadAllClassmate(String type,HttpServletResponse response) throws IOException {
         HSSFWorkbook workbook = new HSSFWorkbook();

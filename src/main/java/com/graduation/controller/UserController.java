@@ -16,8 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
-@ResponseBody
-@Controller
+
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
@@ -36,7 +36,7 @@ public class UserController {
     private ControMessage controMessage=new ControMessage();
 	//用户注册
     @ApiOperation("用户注册")
-	@RequestMapping("/userRegister")
+	@PostMapping("/userRegister")
 	public ControMessage userRegister(String type, String stunum, String name, String school, String password, String grade,
 			String email,String text,HttpServletRequest request) {
         String encodepassword = passwordEncoder.encode(password);
