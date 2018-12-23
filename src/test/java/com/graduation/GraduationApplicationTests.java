@@ -91,7 +91,7 @@ public class GraduationApplicationTests {
     @Test
     public void testBp(){
         BufferedWriter bufferedWriter=null;
-        File newFile1= new File("E:/bp/test1.txt");
+        File newFile1= new File("E:/bp/ttt1.txt");
 
         FileWriter fileWriter=null;
         try {
@@ -128,7 +128,7 @@ public class GraduationApplicationTests {
 //            bufferedWriter.write("0.4-");
 //            bufferedWriter.write("0.4-");
 //            bufferedWriter.write("0.4\n");
-            ConcurrentHashMap<String, List> map = helpTest.predict(newFile1.getPath(), 3);
+            ConcurrentHashMap<String, List> map = helpTest.predict(newFile1.getPath(), 20);
             List<List<Double>> weight = map.get("weight");
             for(List list:weight){
                 list.stream().forEach(System.out::println);

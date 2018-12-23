@@ -37,7 +37,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
                 .antMatchers("/user/userRegister").permitAll()
                 .antMatchers("/user/getbackPasswordForEmail").permitAll()
                 .antMatchers("/pages/**").permitAll()
-                //.antMatchers("/index/**").hasAnyRole("学生","老师")
+                .antMatchers("/index/**").hasAnyRole("学生","老师")
                 .antMatchers("/user/**").hasAnyRole("学生","老师")
                 .antMatchers("/course/**").hasAnyRole("学生","老师")
                 .antMatchers("/email/**").permitAll()

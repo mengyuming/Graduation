@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -41,23 +42,31 @@ public class IndexController {
 
 
     @GetMapping("/testBp")
-    public void helpTest(HttpServletRequest request, ServletContext application){
-            ConcurrentHashMap<String, List> map = helpTest.predict("E:/bp/test1.txt", 3);
-            List<List<Double>> weight = map.get("weight");
-            for(List list:weight){
-                list.stream().forEach(System.out::println);
-            }
-            List biase = map.get("biase");
-            biase.stream().forEach(System.out::println);
+    public void helpTest(HttpServletRequest request){
+        System.out.println("查询权重，偏置");
+        ServletContext app = request.getServletContext();
+        Map map = (Map)app.getAttribute("s");
+        if(map!=null) {
+            //获取权重集合
+            List weight = (List) map.get("weight");
+            //获取输入层到隐含层的权重
+            List<Double> list1 = (List<Double>) weight.get(0);
+            System.out.println("输入层到隐含层的权重："+list1.size());
+            //获取隐含层到输出层的权重
+            List<Double> list2 = (List<Double>) weight.get(1);
+            System.out.println("隐含层到输出层的权重:"+list2.size());
+            List biase =(List) map.get("biase");
+            System.out.println("偏置量"+biase.size());
+        }
     }
 
 
     @ApiOperation("获取所有的指标得分")
     @PostMapping("/addAllIndex")
-    public ControMessage addAllIndex(Index indexsystem, HttpServletRequest request,ServletContext app){
+    public ControMessage addAllIndex(Index indexsystem, HttpServletRequest request){
         User user =(User) request.getSession().getAttribute("user");
 
-        String s = indexsystemService.addAllIndex(indexsystem, request, app);
+        String s = indexsystemService.addAllIndex(indexsystem, request);
         if(s.equals("success")){
             controMessage.contrlSuccess().setMessage("评价成功");
             return controMessage;
@@ -132,7 +141,7 @@ public class IndexController {
                 row1.createCell(0).setCellValue(index.getPnumber());
                 row1.createCell(1).setCellValue(index.getBnumber());
                 row1.createCell(2).setCellValue(index.getCno());
-                row1.createCell(3).setCellValue(index.getOther());
+                row1.createCell(3).setCellValue(index.getTotal());
                 row1.createCell(4).setCellValue(index.getTimes());
                 row1.createCell(5).setCellValue("学生评老师");
                 rowNum++;
@@ -147,7 +156,7 @@ public class IndexController {
                 row1.createCell(0).setCellValue(index.getPnumber());
                 row1.createCell(1).setCellValue(index.getBnumber());
                 row1.createCell(2).setCellValue(index.getCno());
-                row1.createCell(3).setCellValue(index.getOther());
+                row1.createCell(3).setCellValue(index.getTotal());
                 row1.createCell(4).setCellValue(index.getTimes());
                 row1.createCell(4).setCellValue("老师评老师");
                 rowNum++;

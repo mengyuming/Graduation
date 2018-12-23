@@ -26,7 +26,8 @@ public class IndexService {
     private IndexDao indexsystemDao;
 
     @Transactional(rollbackFor = Exception.class)
-    public String addAllIndex(Index index, HttpServletRequest request, ServletContext app) {
+    public String addAllIndex(Index index, HttpServletRequest request) {
+        ServletContext app = request.getServletContext();
         index.setTimes(LocalDate.now().toString());
         User user = (User)request.getSession().getAttribute("user");
         UserDetails userDetail = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -35,7 +36,7 @@ public class IndexService {
         String usernumber = user.getStunum();
         if(usernumber!=null && user!=null){
             if(user.getType().equals("学生")){
-                Map map = (Map)app.getAttribute("squestion");
+                Map map = (Map)app.getAttribute("s");
                 if(map!=null){
                     //获取权重集合
                     List weight =(List) map.get("weight");
@@ -68,16 +69,16 @@ public class IndexService {
                     double d20= list1.get(19) * index.getQ20();
                     temp1=d1+d2+d3+d4+d5+d6+d7+d8+d9+d10+d11+d12+d13+d14+d15+d16+d17+d18+d19+d20;
                     //获取偏置
-                    Double[] biase =(Double[]) map.get("biase");
-                    double hideLayer = 1 / (1 + Math.pow(Math.E, -(temp1 + biase[0])));
+                    List<Double> biase =(List) map.get("biase");
+                    double hideLayer = 1 / (1 + Math.pow(Math.E, -(temp1 + biase.get(0))));
                     temp2=hideLayer*list2.get(0);
-                    double output = 1 / (1 + Math.pow(Math.E, -(temp2 + biase[1])));
+                    double output = 1 / (1 + Math.pow(Math.E, -(temp2 + biase.get(1))));
                     index.setTotal(output);
                     indexsystemDao.addSquestion(index);
                     return "success";
                 }
             }else if(user.getType().equals("老师")){
-                Map map = (Map)app.getAttribute("tquestion");
+                Map map = (Map)app.getAttribute("t");
                 if(map!=null){
                     //获取权重集合
                     List weight =(List) map.get("weight");
@@ -104,10 +105,10 @@ public class IndexService {
                     double d14= list1.get(13) * index.getQ14();
                     temp1=d1+d2+d3+d4+d5+d6+d7+d8+d9+d10+d11+d12+d13+d14;
                     //获取偏置
-                    Double[] biase =(Double[]) map.get("biase");
-                    double hideLayer = 1 / (1 + Math.pow(Math.E, -(temp1 + biase[0])));
+                    List<Double> biase =(List) map.get("biase");
+                    double hideLayer = 1 / (1 + Math.pow(Math.E, -(temp1 + biase.get(0))));
                     temp2=hideLayer*list2.get(0);
-                    double output = 1 / (1 + Math.pow(Math.E, -(temp2 + biase[1])));
+                    double output = 1 / (1 + Math.pow(Math.E, -(temp2 + biase.get(1))));
                     index.setTotal(output);
                     indexsystemDao.addTquestion(index);
                     return "success";
