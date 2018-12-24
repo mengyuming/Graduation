@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 
 
-@RestController
+@Controller
+@ResponseBody
 @RequestMapping("/user")
 public class UserController {
 
@@ -36,7 +37,7 @@ public class UserController {
     private ControMessage controMessage=new ControMessage();
 	//用户注册
     @ApiOperation("用户注册")
-	@PostMapping("/userRegister")
+    @RequestMapping(value = "/userRegister",method = RequestMethod.POST)
 	public ControMessage userRegister(String type, String stunum, String name, String school, String password, String grade,
 			String email,String text,HttpServletRequest request) {
         String encodepassword = passwordEncoder.encode(password);
@@ -66,7 +67,7 @@ public class UserController {
 
 	//获取已经登陆的用户的信息
     @ApiOperation("获取已经登陆的用户的信息")
-	@GetMapping(value = "/getMine")
+    @RequestMapping(value = "/getMine",method = RequestMethod.GET)
 	public ControMessage getMine(HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
         if(user!=null){
@@ -79,7 +80,7 @@ public class UserController {
 
 	//获取用户的详细信息
     @ApiOperation("获取用户的详细信息")
-	@GetMapping(value = "/getInformation")
+    @RequestMapping(value = "/getInformation",method = RequestMethod.GET)
 	public ControMessage getInformation(HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
         User newuser = userService.getInformation(user);
@@ -104,7 +105,7 @@ public class UserController {
 
     //发送验证码
     @ApiOperation("根据用户名获取注册时填写的邮箱，然后发送验证码")
-    @GetMapping("/getbackPasswordForEmail")
+    @RequestMapping(value = "/getbackPasswordForEmail",method = RequestMethod.GET)
     public ControMessage getbackPasswordForEmail(String number,String type){
 
         User user = userService.getbackPasswordForEmail(number, type);

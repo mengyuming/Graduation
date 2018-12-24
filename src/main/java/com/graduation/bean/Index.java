@@ -1,9 +1,13 @@
 package com.graduation.bean;
 
+import io.swagger.models.auth.In;
 import org.apache.ibatis.type.Alias;
 
+import java.io.Serializable;
+
 @Alias("index")
-public class Index {
+public class Index implements Serializable{
+
     private Integer id;
     //评价者
     private String pnumber;
@@ -15,7 +19,7 @@ public class Index {
     private String times;
 
     //评价的课程信息
-    private Integer cno;
+    private String cno;
 
     private String other;
 
@@ -48,7 +52,7 @@ public class Index {
                 ", pnumber='" + pnumber + '\'' +
                 ", bnumber='" + bnumber + '\'' +
                 ", times='" + times + '\'' +
-                ", cno=" + cno +
+                ", cno='" + cno + '\'' +
                 ", other='" + other + '\'' +
                 ", q1=" + q1 +
                 ", q2=" + q2 +
@@ -90,7 +94,7 @@ public class Index {
         this.times = times;
     }
 
-    public void setCno(Integer cno) {
+    public void setCno(String cno) {
         this.cno = cno;
     }
 
@@ -198,7 +202,7 @@ public class Index {
         return times;
     }
 
-    public Integer getCno() {
+    public String getCno() {
         return cno;
     }
 

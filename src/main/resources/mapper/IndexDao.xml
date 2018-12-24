@@ -5,15 +5,10 @@
 <mapper namespace="com.graduation.dao.IndexDao">
 
     <insert id="addTquestion">
-        insert into tquestion(q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,
-        q11,q12,q13,q14,cno,pnumber,bnumber,times,total) values (#{q1},#{q2},#{q3},#{q4},#{q5},#{q6},
-        #{q7},#{q8},#{q9},#{q10},#{q11},#{q12},#{q13},#{q14},#{cno},#{pnumber},#{bnumber},#{times},#{total})
+        insert into tquestion (q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,cno,pnumber,bnumber,times,total) values (#{q1},#{q2},#{q3},#{q4},#{q5},#{q6},#{q7},#{q8},#{q9},#{q10},#{q11},#{q12},#{q13},#{q14},#{cno},#{pnumber},#{bnumber},#{times},#{total})
     </insert>
-    <insert id="addSquestion">
-        insert into squestion(q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,
-        q11,q12,q13,q14,q15,q16,q17,q18,q19,q20,cno,pnumber,bnumber,times,total) values (#{q1},#{q2},#{q3},#{q4},#{q5},#{q6},
-        #{q7},#{q8},#{q9},#{q10},#{q11},#{q12},#{q13},#{q14},#{q15},#{q16},#{q17},
-        #{q18},#{q19},#{q20},#{cno},#{pnumber},#{bnumber},#{times},#{total})
+    <insert id="addSquestion" useGeneratedKeys="true" keyProperty="id">
+        insert into squestion (q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,q16,q17,q18,q19,q20,cno,pnumber,bnumber,times,total) values (#{index.q1},#{index.q2},#{index.q3},#{index.q4},#{index.q5},#{index.q6},#{index.q7},#{index.q8},#{index.q9},#{index.q10},#{index.q11},#{index.q12},#{index.q13},#{index.q14},#{index.q15},#{index.q16},#{index.q17},#{index.q18},#{index.q19},#{index.q20},#{index.cno},#{index.pnumber},#{index.bnumber},#{index.times},#{index.total})
     </insert>
     <select id="getSquestionMyIndex" resultType="com.graduation.bean.Index">
         SELECT * from squestion where pnumber=#{usernumber}

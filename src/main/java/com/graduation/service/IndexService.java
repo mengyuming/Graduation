@@ -30,11 +30,12 @@ public class IndexService {
         ServletContext app = request.getServletContext();
         index.setTimes(LocalDate.now().toString());
         User user = (User)request.getSession().getAttribute("user");
-        UserDetails userDetail = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String usernumber1 = userDetail.getUsername();
-        System.out.println(usernumber1);
+//        UserDetails userDetail = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        String usernumber1 = userDetail.getUsername();
+//        System.out.println(usernumber1);
         String usernumber = user.getStunum();
         if(usernumber!=null && user!=null){
+            index.setPnumber(usernumber);
             if(user.getType().equals("学生")){
                 Map map = (Map)app.getAttribute("s");
                 if(map!=null){
@@ -72,9 +73,13 @@ public class IndexService {
                     List<Double> biase =(List) map.get("biase");
                     double hideLayer = 1 / (1 + Math.pow(Math.E, -(temp1 + biase.get(0))));
                     temp2=hideLayer*list2.get(0);
+                    System.out.println(temp2);
                     double output = 1 / (1 + Math.pow(Math.E, -(temp2 + biase.get(1))));
                     index.setTotal(output);
+                    System.out.println(output);
+                    System.out.println(index);
                     indexsystemDao.addSquestion(index);
+
                     return "success";
                 }
             }else if(user.getType().equals("老师")){
@@ -122,10 +127,10 @@ public class IndexService {
     public CopyOnWriteArrayList<Index> getMyIndex(HttpServletRequest request) {
         User user = (User)request.getSession().getAttribute("user");
         //从springsecurity中获取登陆用户的信息
-        String usernumber1 = SecurityContextHolder.getContext().getAuthentication().getName();
+        //String usernumber1 = SecurityContextHolder.getContext().getAuthentication().getName();
         //获取登陆的用户账号
         ;
-        System.out.println(usernumber1);
+        //System.out.println(usernumber1);
         String usernumber = user.getStunum();
 
         //获取用户的权限，本系统则为用户的角色，即老师还是学生
@@ -149,8 +154,8 @@ public class IndexService {
     @Transactional(rollbackFor = Exception.class)
     public CopyOnWriteArrayList<Index> getOtherIndex(HttpServletRequest request) {
         User user = (User)request.getSession().getAttribute("user");
-        String usernumber1 = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println(usernumber1);
+//        String usernumber1 = SecurityContextHolder.getContext().getAuthentication().getName();
+//        System.out.println(usernumber1);
         String usernumber=user.getStunum();
         if(usernumber!=null){
                 if(user.getType().equals("学生")){

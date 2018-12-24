@@ -6,9 +6,7 @@ import com.graduation.tools.HelpTest;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +15,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
-@RestController
+@Controller
+@ResponseBody
 @RequestMapping("/train")
 public class TrainModelController {
     @Autowired
@@ -27,7 +26,7 @@ public class TrainModelController {
     private IndexService indexService;
 
     @ApiOperation("训练权重占比")
-    @GetMapping("/trainModel")
+    @RequestMapping(value = "/trainModel",method = RequestMethod.GET)
     public Object trainModel(String type, HttpServletRequest request){
         ServletContext servletContext = request.getServletContext();
         ConcurrentHashMap<String, List<Index>> allIndex = indexService.getAllIndex();
