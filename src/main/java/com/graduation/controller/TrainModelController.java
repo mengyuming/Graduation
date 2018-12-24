@@ -2,7 +2,7 @@ package com.graduation.controller;
 
 import com.graduation.bean.Index;
 import com.graduation.service.IndexService;
-import com.graduation.tools.HelpTest;
+import com.graduation.tools.MyModelTrain;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,14 +13,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Stream;
 
 @Controller
 @ResponseBody
 @RequestMapping("/train")
 public class TrainModelController {
     @Autowired
-    private HelpTest helpTest;
+    private MyModelTrain myModelTrain;
     
     @Autowired
     private IndexService indexService;
@@ -37,7 +36,7 @@ public class TrainModelController {
         FileWriter fileWriter=null;
         BufferedWriter bufferedWriter=null;
         try{
-            File newFile = new File("E:/bp/ttt1.txt");
+            File newFile = new File("E:\\java\\IntelliJ IDEA 2017.3.1\\space\\Graduation\\src\\main\\resources\\static\\ttt1.txt");
             if(!newFile.exists()){
                 newFile.createNewFile();
             }
@@ -74,8 +73,8 @@ public class TrainModelController {
                 System.out.println("写入完毕，开始训练模型");
                 bufferedWriter.close();
                 fileWriter.close();
-                File newFile1 = new File("E:/bp/ttt1.txt");
-                ConcurrentHashMap<String, List> map = helpTest.predict(newFile1.getPath(), 20);
+                File newFile1 = new File("E:\\java\\IntelliJ IDEA 2017.3.1\\space\\Graduation\\src\\main\\resources\\static\\ttt1.txt");
+                ConcurrentHashMap<String, List> map = myModelTrain.train(newFile1.getPath(), 20);
                 List<List<Double>> weight = map.get("weight");
                 servletContext.setAttribute("s",map);
                 for(List list:weight){
@@ -107,8 +106,8 @@ public class TrainModelController {
                 System.out.println("写入完毕，开始训练模型");
                 bufferedWriter.close();
                 fileWriter.close();
-                File newFile1 = new File("E:/bp/ttt1.txt");
-                ConcurrentHashMap<String, List> map = helpTest.predict(newFile1.getPath(), 20);
+                File newFile1 = new File("E:\\java\\IntelliJ IDEA 2017.3.1\\space\\Graduation\\src\\main\\resources\\static\\ttt1.txt");
+                ConcurrentHashMap<String, List> map = myModelTrain.train(newFile1.getPath(), 20);
                 List<List<Double>> weight = map.get("weight");
                 servletContext.setAttribute("t",map);
                 for(List list:weight){

@@ -1,14 +1,8 @@
 package com.graduation;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.graduation.bean.Course;
-import com.graduation.bean.User;
 import com.graduation.dao.CourseDao;
-import com.graduation.dao.UserDao;
 import com.graduation.service.UserService;
-import com.graduation.tools.HelpTest;
+import com.graduation.tools.MyModelTrain;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -44,7 +36,7 @@ public class GraduationApplicationTests {
     CourseDao courseDao;
 
     @Autowired
-    HelpTest helpTest;
+    MyModelTrain myModelTrain;
 	@Test
 	public void contextLoads() {
         //生成随机验证码
@@ -128,7 +120,7 @@ public class GraduationApplicationTests {
 //            bufferedWriter.write("0.4-");
 //            bufferedWriter.write("0.4-");
 //            bufferedWriter.write("0.4\n");
-            ConcurrentHashMap<String, List> map = helpTest.predict(newFile1.getPath(), 20);
+            ConcurrentHashMap<String, List> map = myModelTrain.train(newFile1.getPath(), 20);
             List<List<Double>> weight = map.get("weight");
             for(List list:weight){
                 list.stream().forEach(System.out::println);

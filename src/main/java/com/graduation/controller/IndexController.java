@@ -3,9 +3,7 @@ package com.graduation.controller;
 import com.graduation.bean.Index;
 import com.graduation.bean.User;
 import com.graduation.service.IndexService;
-import com.graduation.tools.BPNetwork;
 import com.graduation.tools.ControMessage;
-import com.graduation.tools.HelpTest;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.hssf.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +14,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -135,10 +130,26 @@ public class IndexController {
             //在表中存放查询到的数据放入对应的列
             for (Index index : indices) {
                 HSSFRow row1 = sheet.createRow(rowNum);
+                Double total = index.getTotal();
+                String s=null;
+                if(total>0.8){
+                    s="非常好";
+                }else if(total>0.75){
+                    s="良好";
+                }
+                else if(total>0.6){
+                    s="一般";
+                }
+                else if(total>0.25){
+                    s="差";
+                }
+                else if(total>0.75){
+                    s="非常差";
+                }
                 row1.createCell(0).setCellValue(index.getPnumber());
                 row1.createCell(1).setCellValue(index.getBnumber());
                 row1.createCell(2).setCellValue(index.getCno());
-                row1.createCell(3).setCellValue(index.getTotal());
+                row1.createCell(3).setCellValue(s);
                 row1.createCell(4).setCellValue(index.getTimes());
                 row1.createCell(5).setCellValue("学生评老师");
                 rowNum++;

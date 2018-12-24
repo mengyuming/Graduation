@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-public class HelpTest {
+public class MyModelTrain {
 
 	public void testLogFunc(String fileName,String split,Integer lableindex,Integer inputNumber){
 		//获取训练数据的路径
@@ -27,7 +27,7 @@ public class HelpTest {
 //		String outName = "data/func_test.predict";
 //		bp.predict(testset,outName);
 	}
-	public ConcurrentHashMap<String, List> predict(String testName,Integer lableindex){
+	public ConcurrentHashMap<String, List> train(String testName,Integer lableindex){
         //获取训练数据的路径
         //创建一个Dataset对象，其里面有一个内部类Record来暂时获取训练数据
         //最终训练数据保存在集合中，集合中是一个个Recore
