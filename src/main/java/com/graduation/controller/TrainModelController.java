@@ -28,7 +28,8 @@ public class TrainModelController {
     @RequestMapping(value = "/trainModel",method = RequestMethod.GET)
     public Object trainModel(String type, HttpServletRequest request){
         ServletContext servletContext = request.getServletContext();
-        ConcurrentHashMap<String, List<Index>> allIndex = indexService.getAllIndex();
+        String all="all";
+        ConcurrentHashMap<String, List<Index>> allIndex = indexService.getAllIndex(all);
         List<Index> index = allIndex.get(type);
         System.out.println("输出从数据库获得的指标评价得分");
         index.stream().forEach(System.out::println);

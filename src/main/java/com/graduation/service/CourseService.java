@@ -6,17 +6,25 @@ import com.graduation.bean.Course;
 import com.graduation.bean.User;
 import com.graduation.dao.CourseDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@CacheConfig(cacheNames = "course")
+@CacheConfig(cacheNames = "course",cacheManager = "courseRedisCacheManager")
 public class CourseService {
 
     @Autowired
     private CourseDao courseDao;
+
+    @Qualifier("courseRedisCacheManager")
+    @Autowired
+    CacheManager courseRedisCacheManager;
+
 
     @Transactional(rollbackFor = Exception.class)
     public List<Course> getChoice(String type, String messages) {
@@ -34,7 +42,7 @@ public class CourseService {
     }
 
 
-    //@Cacheable(key="#result.id")
+    @Cacheable(key = "#user.id+#user.type+#user.name")
     @Transactional(rollbackFor = Exception.class)
     public List<Course> getCourseList(User user) {
         String type = user.getType();

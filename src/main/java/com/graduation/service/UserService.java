@@ -1,6 +1,7 @@
 package com.graduation.service;
 
-
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.interceptor.KeyGenerator;
 import com.graduation.bean.User;
 import com.graduation.Handler.MyAuthenticationProvider;
 import com.graduation.controller.EmailMessageController;
@@ -9,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
@@ -25,11 +28,14 @@ import javax.servlet.http.HttpSession;
 
 
 @Service
-//@CacheConfig(cacheNames = "user")
+@CacheConfig(cacheManager = "userRedisCacheManager",cacheNames = "user")
 public class UserService {
 
 	@Autowired
     private UserDao userDao;
+    @Qualifier("userRedisCacheManager")
+	@Autowired
+    RedisCacheManager userRedisCacheManager;
 
 	@Autowired
     EmailMessageController emailMessageController;
@@ -51,6 +57,12 @@ public class UserService {
 
     @Autowired
     AuthenticationFailureHandler myAuthenticationFailHandler;
+
+    @Autowired
+    KeyGenerator myKeyGenerator;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 	@Transactional(rollbackFor = Exception.class)
     public void userRegister(String type, String stunum, String name, String school, String password, String grade, String email, String text) {
@@ -115,9 +127,10 @@ public class UserService {
 
     }
 
-    //@Cacheable(key="#result.id")
+    @Cacheable(key = "#user.id+#user.type+#user.name")
     @Transactional(rollbackFor = Exception.class)
     public User getInformation(User user) {
+        System.out.println(user);
         if (user != null && user.getType().equals("学生")) {
             User newuser = userDao.getstuInformation(user.getId());
             return newuser;
@@ -129,7 +142,7 @@ public class UserService {
       return null;
     }
 
-    //@CachePut(key="#result.id")
+    @CachePut(key = "#user.id+#user.type+#user.name")
     @Transactional(rollbackFor = Exception.class)
     public void updateInformation(User user,String gender,String age,
                                   String depart,String professional,String telephone,String email) {
@@ -148,6 +161,7 @@ public class UserService {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public User getbackPasswordForEmail(String number,String type) {
 	    User user=null;
 	    if(type.equals("老师")){
@@ -159,11 +173,9 @@ public class UserService {
         return user;
     }
 
-    public void getbackPassword(Integer id,String number, String type, String password) {
-        User user = new User();
-        user.setId(id);
-        user.setStunum(number);
-        user.setPassword(password);
+    @Transactional(rollbackFor = Exception.class)
+    @CachePut(key = "#result.id+#result.type+#result.name")
+    public void getbackPassword(User user,String type) {
         if (type.equals("老师")) {
             userDao.updateTeaInformation(user);
 
@@ -173,7 +185,7 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    //@Cacheable(key="#result.id")
+    @Cacheable(key = "#result.id+#result.type+#result.name")
     public User userLogin(String stunum, String type) {
         if (type != null && type.equals("学生")) {
             User user = userDao.stuLogin(stunum);

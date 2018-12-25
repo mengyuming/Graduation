@@ -70,7 +70,8 @@ public class IndexController {
     @ApiOperation("获取我所参与过的所有的评价信息【我是评价者，不是被评者】")
     @RequestMapping(value = "/getMyIndex",method = RequestMethod.GET)
     public ControMessage getMyIndex(HttpServletRequest request){
-        CopyOnWriteArrayList<Index> myIndex = indexsystemService.getMyIndex(request);
+        User user = (User)request.getSession().getAttribute("user");
+        CopyOnWriteArrayList<Index> myIndex = indexsystemService.getMyIndex(user,request);
 
         if(myIndex!=null&&myIndex.size()>0){
             controMessage.contrlSuccess().setMessage("获取信息成功").setAll().add(myIndex);
@@ -83,7 +84,8 @@ public class IndexController {
     @ApiOperation("获取我被评价的所有信息【我是被评者】")
     @RequestMapping(value = "/getOtherIndex",method = RequestMethod.GET)
     public ControMessage getOtherIndex(HttpServletRequest request){
-        CopyOnWriteArrayList<Index> myIndex = indexsystemService.getOtherIndex(request);
+        User user = (User)request.getSession().getAttribute("user");
+        CopyOnWriteArrayList<Index> myIndex = indexsystemService.getOtherIndex(user,request);
 
         if(myIndex!=null&&myIndex.size()>0){
             controMessage.contrlSuccess().setMessage("获取信息成功").setAll().add(myIndex);
@@ -96,7 +98,8 @@ public class IndexController {
     @ApiOperation("获得所有的评教的结果")
     @RequestMapping(value = "/getAllIndex",method = RequestMethod.GET)
     public ControMessage getAllIndex(){
-        ConcurrentHashMap<String,List<Index>> allIndex = indexsystemService.getAllIndex();
+        String all="all";
+        ConcurrentHashMap<String,List<Index>> allIndex = indexsystemService.getAllIndex(all);
         if(allIndex!=null&&allIndex.size()>0){
             controMessage.contrlSuccess().setMessage("获取信息成功").setAll().add(allIndex);
             return  controMessage;
@@ -111,7 +114,8 @@ public class IndexController {
     public void downloadAllClassmate(String type,HttpServletResponse response) throws IOException {
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("信息表");
-        ConcurrentHashMap<String, List<Index>> allIndex = indexsystemService.getAllIndex();
+        String all="all";
+        ConcurrentHashMap<String, List<Index>> allIndex = indexsystemService.getAllIndex(all);
         List<Index> indices = allIndex.get(type);
         int rowNum = 1;
         String fileName = "data"  + ".xls";//设置要导出的文件的名字

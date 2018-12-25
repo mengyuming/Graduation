@@ -140,4 +140,11 @@ public class GraduationApplicationTests {
 
     }
 
+
+    @Test
+    public void testRedis(){
+
+    }
+
+
 }

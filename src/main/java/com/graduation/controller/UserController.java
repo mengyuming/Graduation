@@ -126,7 +126,12 @@ public class UserController {
         User user = userService.getbackPasswordForEmail(number, type);
         if(user!=null){
             if(emailSendService.getMap().get(user.getEmail()).equals(message)){
-                userService.getbackPassword(user.getId(),number,type,password);
+                User newuser=new User();
+                String encode = passwordEncoder.encode(password);
+                newuser.setId(user.getId());
+                newuser.setStunum(number);
+                newuser.setPassword(encode);
+                userService.getbackPassword(newuser,type);
                 controMessage.contrlSuccess().setMessage("密码修改成功");
                 return controMessage;
             }

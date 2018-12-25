@@ -4,6 +4,12 @@ import com.graduation.bean.Index;
 import com.graduation.bean.User;
 import com.graduation.dao.IndexDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,12 +26,18 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
+@CacheConfig(cacheNames="index",cacheManager = "indexRedisCacheManager")
 public class IndexService {
 
     @Autowired
     private IndexDao indexsystemDao;
 
+    @Qualifier("indexRedisCacheManager")
+    @Autowired
+    CacheManager indexRedisCacheManager;
+
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(cacheNames="index",allEntries=true)
     public String addAllIndex(Index index, HttpServletRequest request) {
         ServletContext app = request.getServletContext();
         index.setTimes(LocalDate.now().toString());
@@ -124,8 +136,9 @@ public class IndexService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public CopyOnWriteArrayList<Index> getMyIndex(HttpServletRequest request) {
-        User user = (User)request.getSession().getAttribute("user");
+    @Cacheable(key = "#user.id+#user.type+#user.name")
+    public CopyOnWriteArrayList<Index> getMyIndex(User user,HttpServletRequest request) {
+        //User user = (User)request.getSession().getAttribute("user");
         //从springsecurity中获取登陆用户的信息
         //String usernumber1 = SecurityContextHolder.getContext().getAuthentication().getName();
         //获取登陆的用户账号
@@ -152,8 +165,9 @@ public class IndexService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public CopyOnWriteArrayList<Index> getOtherIndex(HttpServletRequest request) {
-        User user = (User)request.getSession().getAttribute("user");
+    @Cacheable(key = "#user.id+#user.name")
+    public CopyOnWriteArrayList<Index> getOtherIndex(User user,HttpServletRequest request) {
+   //     User user = (User)request.getSession().getAttribute("user");
 //        String usernumber1 = SecurityContextHolder.getContext().getAuthentication().getName();
 //        System.out.println(usernumber1);
         String usernumber=user.getStunum();
@@ -171,7 +185,8 @@ public class IndexService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ConcurrentHashMap<String,List<Index>> getAllIndex() {
+    //@Cacheable(key="#all")
+    public ConcurrentHashMap<String,List<Index>> getAllIndex(String all) {
 
         String usernumber = SecurityContextHolder.getContext().getAuthentication().getName();
         ConcurrentHashMap<String,List<Index>> map=new ConcurrentHashMap<>();
