@@ -17,7 +17,7 @@ public class MyModelTrain {
 		Dataset dataset = Dataset.load(fileName, split, lableindex,false);
 		
 		//创建一个新的BPNetwork对象
-		BPNetwork bp = new BPNetwork(new int[]{inputNumber,1,1},false);
+		BPNetwork bp = new BPNetwork(new int[]{inputNumber,100,1},false);
 		
 		//调用BPNetwork的训练方法
 		bp.trainModel(dataset,1);
@@ -35,7 +35,7 @@ public class MyModelTrain {
         Dataset dataset = Dataset.load(testName, "-", lableindex,false);
 
         //创建一个新的BPNetwork对象
-        BPNetwork bp = new BPNetwork(new int[]{lableindex,1,1},false);
+        BPNetwork bp = new BPNetwork(new int[]{lableindex,100,1},false);
 
         //调用BPNetwork的训练方法
         ConcurrentHashMap<String, List> map = bp.trainModel(dataset, 1);

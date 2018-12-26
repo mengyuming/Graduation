@@ -92,17 +92,20 @@ public class BPNetwork extends NeuralNetwork {
                     double[][] score2 = next.getWeights();
                     if(score2!=null) {
                         System.out.println("------------------------------");
-                        List<Double> list1=new CopyOnWriteArrayList<>();
-                        for (int m = 0; m < score2.length; m++) {// 控制行数
+                        List<NeuralLayer> layerList=new CopyOnWriteArrayList<>();
+                        layerList.add(next);
+//                        for (int m = 0; m < score2.length; m++) {// 控制行数
+//                            List<Double> list1=new CopyOnWriteArrayList<>();
+//                            for (int n = 0; n < score2[m].length; n++) {// 一行中有多少个元素（即多少列）
+//                                System.out.println(score2[m][n] + "权重 ");
+//                                xxx++;
+//                                list1.add(score2[m][n]);
+//                            }
+//                            list.add(list1);
+//                            System.out.println("------------------------------");
+//                        }
+                        list.add(layerList);
 
-                            for (int n = 0; n < score2[m].length; n++) {// 一行中有多少个元素（即多少列）
-                                System.out.println(score2[m][n] + "权重 ");
-                                xxx++;
-                                list1.add(score2[m][n]);
-                            }
-                            System.out.println("------------------------------");
-                        }
-                        list.add(list1);
                     }
                     System.out.println("xxxxxx====="+xxx);
                     System.out.println("输出偏置量");

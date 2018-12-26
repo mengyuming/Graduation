@@ -40,13 +40,18 @@ public class IndexController {
         if(map!=null) {
             //获取权重集合
             List weight = (List) map.get("weight");
+            System.out.println(weight.size());
+
             //获取输入层到隐含层的权重
-            List<Double> list1 = (List<Double>) weight.get(0);
-            System.out.println("输入层到隐含层的权重："+list1.size());
+//            List<Double> list1 = (List<Double>) weight.get(0);
+//            System.out.println(list1.size());
+//            System.out.println("输入层到隐含层的权重："+list1.size());
             //获取隐含层到输出层的权重
-            List<Double> list2 = (List<Double>) weight.get(1);
-            System.out.println("隐含层到输出层的权重:"+list2.size());
+//            List<Double> list2 = (List<Double>) weight.get(1);
+//            System.out.println("隐含层到输出层的权重:"+list2.size());
+//            System.out.println(list2.size());
             List biase =(List) map.get("biase");
+            System.out.println(biase.size());
             System.out.println("偏置量"+biase.size());
         }
     }

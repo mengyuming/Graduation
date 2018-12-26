@@ -3,6 +3,10 @@ package com.graduation.service;
 import com.graduation.bean.Index;
 import com.graduation.bean.User;
 import com.graduation.dao.IndexDao;
+import com.graduation.tools.BPNetwork;
+import com.graduation.tools.ConcurenceRunner;
+import com.graduation.tools.MyRunner;
+import com.graduation.tools.NeuralLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CountDownLatch;
 
 @Service
 @CacheConfig(cacheNames="index",cacheManager = "indexRedisCacheManager")
@@ -35,6 +40,9 @@ public class IndexService {
     @Qualifier("indexRedisCacheManager")
     @Autowired
     CacheManager indexRedisCacheManager;
+
+    @Autowired
+    MyRunner myRunner;
 
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(cacheNames="index",allEntries=true)
@@ -53,80 +61,88 @@ public class IndexService {
                 if(map!=null){
                     //获取权重集合
                     List weight =(List) map.get("weight");
-                    //获取输入层到隐含层的权重
-                    List<Double> list1 = (List<Double>)weight.get(0);
-                    //获取隐含层到输出层的权重
-                    List<Double> list2 = (List<Double>)weight.get(1);
-                    //计算temp
-                    Double temp1=0.0;
-                    Double temp2=0.0;
-                    double d1 = list1.get(0) * index.getQ1();
-                    double d2 = list1.get(1) * index.getQ2();
-                    double d3 = list1.get(2) * index.getQ3();
-                    double d4 = list1.get(3) * index.getQ4();
-                    double d5 = list1.get(4) * index.getQ5();
-                    double d6 = list1.get(5) * index.getQ6();
-                    double d7 = list1.get(6) * index.getQ7();
-                    double d8 = list1.get(7) * index.getQ8();
-                    double d9 = list1.get(8) * index.getQ9();
-                    double d10 = list1.get(9) * index.getQ10();
-                    double d11 = list1.get(10) * index.getQ11();
-                    double d12= list1.get(11) * index.getQ12();
-                    double d13= list1.get(12) * index.getQ13();
-                    double d14= list1.get(13) * index.getQ14();
-                    double d15= list1.get(14) * index.getQ15();
-                    double d16= list1.get(15) * index.getQ16();
-                    double d17= list1.get(16) * index.getQ17();
-                    double d18= list1.get(17) * index.getQ18();
-                    double d19= list1.get(18) * index.getQ19();
-                    double d20= list1.get(19) * index.getQ20();
-                    temp1=d1+d2+d3+d4+d5+d6+d7+d8+d9+d10+d11+d12+d13+d14+d15+d16+d17+d18+d19+d20;
-                    //获取偏置
-                    List<Double> biase =(List) map.get("biase");
-                    double hideLayer = 1 / (1 + Math.pow(Math.E, -(temp1 + biase.get(0))));
-                    temp2=hideLayer*list2.get(0);
-                    System.out.println(temp2);
-                    double output = 1 / (1 + Math.pow(Math.E, -(temp2 + biase.get(1))));
-                    index.setTotal(output);
-                    System.out.println(output);
-                    System.out.println(index);
-                    indexsystemDao.addSquestion(index);
+                    List list=(List)weight.get(0);
+                    NeuralLayer layer = (NeuralLayer)list.get(0);
+                    double[][] weights = layer.getWeights();
+                    final double[] outputs = layer.getOutputs();
+                    final double[] theta = layer.getBiases();
+                    double[] lastOutputs=new double[20];
 
+                    lastOutputs[0]= index.getQ1();
+                    lastOutputs[1]= index.getQ2();
+                    lastOutputs[2]= index.getQ3();
+                    lastOutputs[3]= index.getQ4();
+                    lastOutputs[4]= index.getQ5();
+                    lastOutputs[5]= index.getQ6();
+                    lastOutputs[6]= index.getQ7();
+                    lastOutputs[7]= index.getQ8();
+                    lastOutputs[8]= index.getQ9();
+                    lastOutputs[9]= index.getQ10();
+                    lastOutputs[10]= index.getQ11();
+                    lastOutputs[11]= index.getQ12();
+                    lastOutputs[12]= index.getQ13();
+                    lastOutputs[13]= index.getQ14();
+                    lastOutputs[14]= index.getQ15();
+                    lastOutputs[15]= index.getQ16();
+                    lastOutputs[16]= index.getQ17();
+                    lastOutputs[17]= index.getQ18();
+                    lastOutputs[18]= index.getQ19();
+                    lastOutputs[19]= index.getQ20();
+                    double[] outPut = getOutPut(outputs, theta, weights, lastOutputs);
+
+                    List list1=(List)weight.get(1);
+                    NeuralLayer layer1 = (NeuralLayer)list1.get(0);
+                    double[][] weights1 = layer1.getWeights();
+                    final double[] outputs1 = layer1.getOutputs();
+                    final double[] theta1 = layer1.getBiases();
+                    double[] outPut1 = getOutPut(outputs1, theta1, weights1, outPut);
+                    System.out.println(outPut1.length);
+                    for(int i=0 ; i<outPut1.length ; i++){
+                        System.out.println(outPut1[i]);
+                    }
+                    index.setTotal(outPut1[0]);
+                    indexsystemDao.addSquestion(index);
                     return "success";
                 }
             }else if(user.getType().equals("老师")){
-                Map map = (Map)app.getAttribute("t");
+                Map map = (Map)app.getAttribute("s");
                 if(map!=null){
                     //获取权重集合
                     List weight =(List) map.get("weight");
-                    //获取输入层到隐含层的权重
-                    List<Double> list1 = (List<Double>)weight.get(0);
-                    //获取隐含层到输出层的权重
-                    List<Double> list2 = (List<Double>)weight.get(1);
-                    //计算temp
-                    Double temp1=0.0;
-                    Double temp2=0.0;
-                    double d1 = list1.get(0) * index.getQ1();
-                    double d2 = list1.get(1) * index.getQ2();
-                    double d3 = list1.get(2) * index.getQ3();
-                    double d4 = list1.get(3) * index.getQ4();
-                    double d5 = list1.get(4) * index.getQ5();
-                    double d6 = list1.get(5) * index.getQ6();
-                    double d7 = list1.get(6) * index.getQ7();
-                    double d8 = list1.get(7) * index.getQ8();
-                    double d9 = list1.get(8) * index.getQ9();
-                    double d10 = list1.get(9) * index.getQ10();
-                    double d11 = list1.get(10) * index.getQ11();
-                    double d12= list1.get(11) * index.getQ12();
-                    double d13= list1.get(12) * index.getQ13();
-                    double d14= list1.get(13) * index.getQ14();
-                    temp1=d1+d2+d3+d4+d5+d6+d7+d8+d9+d10+d11+d12+d13+d14;
-                    //获取偏置
-                    List<Double> biase =(List) map.get("biase");
-                    double hideLayer = 1 / (1 + Math.pow(Math.E, -(temp1 + biase.get(0))));
-                    temp2=hideLayer*list2.get(0);
-                    double output = 1 / (1 + Math.pow(Math.E, -(temp2 + biase.get(1))));
-                    index.setTotal(output);
+                    List list=(List)weight.get(0);
+                    NeuralLayer layer = (NeuralLayer)list.get(0);
+                    double[][] weights = layer.getWeights();
+                    final double[] outputs = layer.getOutputs();
+                    final double[] theta = layer.getBiases();
+                    double[] lastOutputs=new double[20];
+
+                    lastOutputs[0]= index.getQ1();
+                    lastOutputs[1]= index.getQ2();
+                    lastOutputs[2]= index.getQ3();
+                    lastOutputs[3]= index.getQ4();
+                    lastOutputs[4]= index.getQ5();
+                    lastOutputs[5]= index.getQ6();
+                    lastOutputs[6]= index.getQ7();
+                    lastOutputs[7]= index.getQ8();
+                    lastOutputs[8]= index.getQ9();
+                    lastOutputs[9]= index.getQ10();
+                    lastOutputs[10]= index.getQ11();
+                    lastOutputs[11]= index.getQ12();
+                    lastOutputs[12]= index.getQ13();
+                    lastOutputs[13]= index.getQ14();
+                    double[] outPut = getOutPut(outputs, theta, weights, lastOutputs);
+
+                    List list1=(List)weight.get(1);
+                    NeuralLayer layer1 = (NeuralLayer)list1.get(0);
+                    double[][] weights1 = layer1.getWeights();
+                    final double[] outputs1 = layer1.getOutputs();
+                    final double[] theta1 = layer1.getBiases();
+                    double[] outPut1 = getOutPut(outputs1, theta1, weights1, outPut);
+                    System.out.println(outPut1.length);
+                    for(int i=0 ; i<outPut1.length ; i++){
+                        System.out.println(outPut1[i]);
+                    }
+                    index.setTotal(outPut1[0]);
                     indexsystemDao.addTquestion(index);
                     return "success";
                 }
@@ -199,4 +215,64 @@ public class IndexService {
         }
         return null;
     }
+
+
+
+
+    private abstract class Task implements Runnable {
+        int start, end;
+
+        public Task(int start, int end) {
+            this.start = start;
+            this.end = end;
+        }
+
+        @Override
+        public void run() {
+            process(start, end);
+        }
+
+        public abstract void process(int start, int end);
+
+    }
+
+    private double[] getOutPut(double[] outputs,double[] theta,double[][]weights,double[] lastOutputs){
+        int cpuNum = ConcurenceRunner.cpuNum;
+        cpuNum = cpuNum < outputs.length ? cpuNum : 1;// 比cpu的个数小一个时，只用一个线程
+        final CountDownLatch gate = new CountDownLatch(cpuNum);
+        int fregLength = outputs.length / cpuNum;
+        for (int cpu = 0; cpu < cpuNum; cpu++) {
+            int start = cpu * fregLength;
+            int tmp = (cpu + 1) * fregLength;
+            int end = tmp <= outputs.length ? tmp : outputs.length;
+            System.out.println(start);
+            System.out.println(end);
+            Task task =new Task(start, end) {
+
+                @Override
+                public void process(int start, int end) {
+                    for (int j = start; j < end; j++) {
+                        double tmp = 0;
+
+                        for (int i = 0; i < weights.length; i++) {
+                            tmp += weights[i][j] * lastOutputs[i];
+                        }
+                        System.out.println(tmp);
+                        outputs[j] = 1 / (1 + Math.pow(Math.E, -(tmp + theta[j])));
+
+                    }
+                    gate.countDown();
+                }
+            };
+            myRunner.run(task);
+        }
+
+        try {
+            gate.await();// 等待所有线程跑完一轮数据
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return outputs;
+    }
+
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestControllerAdvice
+//0@RestControllerAdvice
 public class MyExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public Map<String,String> errorHandler(Exception ex) {
