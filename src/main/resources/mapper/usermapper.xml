@@ -37,7 +37,7 @@
             <if test="user.password!=null">password=#{user.password},</if>
             <if test="user.name!=null">name=#{user.name}</if>
         </trim>
-        where id=#{id}
+        where id=#{user.id}
     </update>
     <update id="updateTeaInformation">
         update teacher
@@ -51,7 +51,7 @@
             <if test="user.password!=null">password=#{user.password},</if>
             <if test="user.name!=null">name=#{user.name}</if>
         </trim>
-        where id=#{id}
+        where id=#{user.id}
     </update>
 
 </mapper>

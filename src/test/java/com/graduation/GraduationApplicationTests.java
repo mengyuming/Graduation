@@ -15,6 +15,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -143,6 +146,9 @@ public class GraduationApplicationTests {
 
     @Test
     public void testRedis(){
+        List<Integer> list= Arrays.asList(1,2,3,4,5);
+
+
 
     }
 

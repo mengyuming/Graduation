@@ -10,11 +10,6 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface UserDao{
 
-	public User userLogin(@Param("id") String id, @Param("password") String password,
-                          @Param("radio") String radio);
-
-	public User selectById(@Param("id") String id);
-
 	public void stuRegister(@Param("stu") User stu);
 
 	public void teaRegister(@Param("tea") User tea);
