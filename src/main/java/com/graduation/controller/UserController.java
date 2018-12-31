@@ -10,11 +10,13 @@ import com.graduation.service.UserService;
 import com.graduation.tools.ControMessage;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @Controller
@@ -96,9 +98,9 @@ public class UserController {
     @ApiOperation("更新用户信息")
 	@RequestMapping(value = "/updateinformation",method = RequestMethod.POST)
 	public ControMessage updateInformation(String gender, String age, String depart, String professional, String telephone,
-			String email,HttpServletRequest request) {
+			String email,String nation,String signature,HttpServletRequest request) {
 		User user = (User) request.getSession().getAttribute("user");
-		userService.updateInformation(user,gender,age,depart,professional,telephone,email);
+		userService.updateInformation(user,gender,age,depart,professional,telephone,email,nation,signature);
         controMessage.contrlSuccess().setMessage("更新成功");
         return controMessage;
 	}
@@ -137,6 +139,33 @@ public class UserController {
             }
         }
         controMessage.contrlError().setMessage("验证码不匹配，请重发");
+        return controMessage;
+    }
+
+    @ApiOperation("修改密码")
+    @RequestMapping(value="/updatePassword",method = RequestMethod.POST)
+    public ControMessage updatePassword(String oldpassword,String newpassword,HttpServletRequest request){
+        User user =(User) request.getSession().getAttribute("user");
+        boolean matches = passwordEncoder.matches(oldpassword, user.getPassword());
+        if(matches){
+            user.setPassword(newpassword);
+            userService.updatePassword(user);
+            controMessage.contrlSuccess().setMessage("更新成功");
+            return controMessage;
+        }
+        controMessage.contrlError().setMessage("更新失败！原密码错误！");
+        return controMessage;
+    }
+
+    @ApiOperation("获取本专业所有老师，不一定每个老师都有带课")
+    @RequestMapping(value="/getMyAllTeacher",method = RequestMethod.GET)
+    public ControMessage getMyAllTeacher(HttpServletRequest request){
+        List<User> user= userService.getMyAllTeacher(request);
+        if(user!=null&&user.size()>0){
+            controMessage.contrlSuccess().setMessage("操作成功").setAll().add(user);
+            return controMessage;
+        }
+        controMessage.contrlError().setMessage("操作失败！");
         return controMessage;
     }
 }

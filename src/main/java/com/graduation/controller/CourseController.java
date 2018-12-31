@@ -53,4 +53,11 @@ public class CourseController {
                 .setMessage("获取课表信息失败！请出入正确的信息");
         return controMessage;
 	}
+
+    @RequestMapping(value = "/getCourseByCno",method = RequestMethod.GET)
+    @ApiOperation("根据课程编号获取课程信息")
+	public Object getCourseByCno(String cno){
+        List<Course> courseByCno = courseService.getCourseByCno(cno);
+        return courseByCno;
+    }
 }

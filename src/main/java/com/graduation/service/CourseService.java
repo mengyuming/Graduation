@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.graduation.bean.Course;
+import com.graduation.bean.Index;
 import com.graduation.bean.User;
 import com.graduation.dao.CourseDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +86,11 @@ public class CourseService {
 
         }
         return null;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public List<Course> getCourseByCno(String cno) {
+        return courseDao.getCourseByCno(cno);
     }
 }
 

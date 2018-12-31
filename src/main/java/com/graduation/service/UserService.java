@@ -1,5 +1,6 @@
 package com.graduation.service;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.interceptor.KeyGenerator;
 import com.graduation.bean.User;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 
 @Service
@@ -146,14 +148,16 @@ public class UserService {
     @CachePut(key = "#user.stunum+#user.type")
     @Transactional(rollbackFor = Exception.class)
     public void updateInformation(User user,String gender,String age,
-                                  String depart,String professional,String telephone,String email) {
+                                  String depart,String professional,String telephone,String email,String nation,String signature) {
         if(user!=null&&user.getType() != null) {
-            user.setGender(gender);
-            user.setAge(age);
-            user.setDepart(depart);
-            user.setProfessional(professional);
-            user.setTelephone(telephone);
-            user.setEmail(email);
+            user.setGender(gender)
+            .setAge(age)
+            .setDepart(depart)
+            .setProfessional(professional)
+            .setTelephone(telephone)
+            .setEmail(email)
+            .setNation(nation)
+            .setSignature(signature);
             if(user.getType().equals("老师")){
                 userDao.updateTeaInformation(user);
             }else if(user.getType().equals("学生")){
@@ -196,5 +200,30 @@ public class UserService {
             return user;
         }
         return null;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @CachePut(key = "#user.stunum+#user.type")
+    public void updatePassword(User user) {
+	    userDao.updateTeaInformation(user);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public User getUserById(Integer id,String type) {
+        if(type!=null&&type.equals("学生")){
+            return userDao.getStuById(id);
+        }else if(type!=null&&type.equals("老师")){
+            return userDao.getTeaById(id);
+        }
+        return null;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public List<User> getMyAllTeacher(HttpServletRequest request) {
+        User user =(User) request.getSession().getAttribute("user");
+        if(user.getType().equals("老师")){
+            return null;
+        }
+        return userDao.getMyAllTeacher(user.getProfessional());
     }
 }

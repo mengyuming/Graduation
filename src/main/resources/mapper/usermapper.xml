@@ -36,6 +36,8 @@
             <if test="user.email!=null">email=#{user.email},</if>
             <if test="user.password!=null">password=#{user.password},</if>
             <if test="user.name!=null">name=#{user.name}</if>
+            <if test="user.nation!=null">nation=#{user.nation}</if>
+            <if test="user.signature!=null">signature=#{user.signature}</if>
         </trim>
         where id=#{user.id}
     </update>
@@ -50,6 +52,8 @@
             <if test="user.email!=null">email=#{user.email},</if>
             <if test="user.password!=null">password=#{user.password},</if>
             <if test="user.name!=null">name=#{user.name}</if>
+            <if test="user.nation!=null">nation=#{user.nation}</if>
+            <if test="user.signature!=null">signature=#{user.signature}</if>
         </trim>
         where id=#{user.id}
     </update>

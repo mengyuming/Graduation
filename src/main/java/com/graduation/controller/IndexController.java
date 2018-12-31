@@ -1,8 +1,11 @@
 package com.graduation.controller;
 
+import com.graduation.bean.Course;
 import com.graduation.bean.Index;
 import com.graduation.bean.User;
+import com.graduation.service.CourseService;
 import com.graduation.service.IndexService;
+import com.graduation.service.UserService;
 import com.graduation.tools.ControMessage;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.hssf.usermodel.*;
@@ -28,7 +31,15 @@ public class IndexController {
     @Autowired
     private IndexService indexsystemService;
 
+    @Autowired
+    private CourseService courseService;
+
+    @Autowired
+    private UserService userService;
+
     private ControMessage controMessage=new ControMessage();
+
+
 
 
     @ApiOperation("测试获取的权重值以及偏置值")
@@ -60,8 +71,15 @@ public class IndexController {
     @ApiOperation("新增评论得分")
     @RequestMapping(value = "/addAllIndex",method = RequestMethod.POST)
     public ControMessage addAllIndex(Index indexsystem, HttpServletRequest request){
-        System.out.println(indexsystem);
+        List<Course> courseByCno = courseService.getCourseByCno(indexsystem.getCno());
+        if(courseByCno==null||courseByCno.size()<=0){
+            controMessage.contrlError().setMessage("操作失败！没有此课程编号！");
+            return controMessage;
+        }
+        String tid = courseByCno.get(0).getTid().toString();
         User user =(User) request.getSession().getAttribute("user");
+        User user1=userService.getUserById(Integer.valueOf(tid),"老师");
+        indexsystem.setBnumber(user1.getStunum());
 
         String s = indexsystemService.addAllIndex(indexsystem, request);
         if(s.equals("success")){

@@ -19,4 +19,7 @@
 <select id="getStuCourse" resultType="course">
 	select * from course where pname=#{professional} and grade=#{grade}
 </select>
+<select id="getCourseByCno" resultType="com.graduation.bean.Course">
+    select * from course where cno=#{cno}
+</select>
 </mapper>

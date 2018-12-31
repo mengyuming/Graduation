@@ -21,4 +21,5 @@ public interface CourseDao extends BaseMapper<Course>{
 
 	CopyOnWriteArrayList<Course> getStuCourse(@Param("professional") String professional, @Param("grade") String grade);
 
+    List<Course> getCourseByCno(@Param("cno")String cno);
 }

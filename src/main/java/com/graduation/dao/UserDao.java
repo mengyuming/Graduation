@@ -7,8 +7,10 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
-public interface UserDao{
+public interface UserDao extends BaseMapper<User>{
 
 	public void stuRegister(@Param("stu") User stu);
 
@@ -37,4 +39,13 @@ public interface UserDao{
 
     @Select("SELECT * FROM student where stunum=#{s}")
     public User getStuByNum(@Param("s") String s);
+
+    @Select("SELECT * FROM student where id=#{id}")
+    public User getStuById(@Param("id")Integer id);
+
+    @Select("SELECT * FROM teacher where id=#{id}")
+    public User getTeaById(@Param("id")Integer id);
+
+    @Select("SELECT * FROM teacher where professional=#{professional}")
+    public List<User> getMyAllTeacher(@Param("professional") String professional);
 }
