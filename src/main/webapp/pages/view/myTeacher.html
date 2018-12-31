@@ -1,1 +1,7 @@
 <div app-head-bar text="我的老师"></div>
+<div class="myTeacher" >
+  <div class="teacher">Teacher Name</div>
+  <div ng-repeat="teacher in teachers">
+    <div class="teacherList" ui-sref="evaluation({id:teacher.id})">{{teacher.name}}</div>
+  </div>
+</div>

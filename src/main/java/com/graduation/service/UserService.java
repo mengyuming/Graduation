@@ -81,6 +81,7 @@ public class UserService {
                     userDao.stuRegister(stu);
 
                 } else if (type != null && type.equals("老师")) {
+                    System.out.println("注册老师");
                     User tea = new User();
                     tea.setType(type);
                     tea.setName(name);
@@ -127,7 +128,7 @@ public class UserService {
 
     }
 
-    @Cacheable(key = "#user.id+#user.type+#user.name")
+    @Cacheable(key = "#user.stunum+#user.type")
     @Transactional(rollbackFor = Exception.class)
     public User getInformation(User user) {
         System.out.println(user);
@@ -142,7 +143,7 @@ public class UserService {
       return null;
     }
 
-    @CachePut(key = "#user.id+#user.type+#user.name")
+    @CachePut(key = "#user.stunum+#user.type")
     @Transactional(rollbackFor = Exception.class)
     public void updateInformation(User user,String gender,String age,
                                   String depart,String professional,String telephone,String email) {
@@ -174,7 +175,7 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    @CachePut(key = "#result.id+#result.type+#result.name")
+    @CachePut(key = "#user.stunum+#type")
     public void getbackPassword(User user,String type) {
         if (type.equals("老师")) {
             userDao.updateTeaInformation(user);
@@ -185,7 +186,7 @@ public class UserService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    @Cacheable(key = "#result.id+#result.type+#result.name")
+    @Cacheable(key = "#stunum+#type")
     public User userLogin(String stunum, String type) {
         if (type != null && type.equals("学生")) {
             User user = userDao.stuLogin(stunum);

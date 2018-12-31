@@ -1,6 +1,8 @@
 package com.graduation.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -41,7 +43,7 @@ public class CourseController {
     @ApiOperation("获取用户个人课表")
 	public ControMessage getCourseList(HttpServletRequest request) {
 		User user=(User)request.getSession().getAttribute("user");
-        List<Course> courseList = courseService.getCourseList(user);
+        Map<String, Course> courseList = courseService.getCourseList(user);
         System.out.println(courseList);
         if(courseList!=null){
             controMessage.contrlSuccess().setMessage("获取课表信息成功").setAll().add(courseList);

@@ -2,6 +2,9 @@ html,
 body {
   height: 100%;
 }
+input[disabled] {
+  background: white;
+}
 html,
 body,
 span,
@@ -111,7 +114,7 @@ button {
 .content ul li {
   color: white;
   float: left;
-  width: 33.33333%;
+  width: 25%;
 }
 .headBar {
   height: 2.13333333rem;
@@ -185,6 +188,9 @@ button {
 }
 .mine .my .list .per {
   color: greenyellow;
+}
+.mine .my .list .set {
+  color: #31b0d5;
 }
 .mine .my .list .fr {
   float: right;
@@ -302,8 +308,8 @@ button {
 .register .contain .put .samepw {
   color: red;
   position: absolute;
-  top: 14.50666667rem;
-  right: 0;
+  top: 14.93333333rem;
+  right: 0.42666667rem;
 }
 .register .contain .put .icon {
   height: 1.70666667rem;
@@ -707,6 +713,68 @@ button {
 .course .list .list-group .bgColor {
   background: rgba(255, 255, 0, 0.3);
 }
+.site {
+  padding: 0.42666667rem 0;
+  position: fixed;
+  top: 2.13333333rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.site div {
+  margin: 0.21333333rem 0;
+  background: #505050;
+  width: 100%;
+  height: 1.70666667rem;
+  line-height: 1.70666667rem;
+  font-size: 0.7rem;
+  padding-left: 0.85333333rem;
+  color: white;
+}
+.updatePassword {
+  padding: 0.42666667rem;
+}
+.updatePassword .pws {
+  margin-bottom: 0.42666667rem;
+}
+.updatePassword .pws div .pw {
+  display: inline-block;
+  width: 2.98666667rem;
+  height: 1.49333333rem;
+  line-height: 1.49333333rem;
+}
+.updatePassword .pws div input {
+  padding-left: 0.64rem;
+  width: 78%;
+  height: 1.49333333rem;
+  line-height: 1.49333333rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+.updatePassword .pws div input:focus {
+  transition: 0.5s border-bottom;
+  border-bottom: 1px solid yellow;
+}
+.updatePassword .pws div .samepw {
+  color: red;
+  position: absolute;
+  top: 5.97333333rem;
+  right: 0.42666667rem;
+}
+.updatePassword .tip {
+  color: gray;
+  margin-bottom: 0.85333333rem;
+}
+.updatePassword button {
+  width: 100%;
+  height: 1.28rem;
+  background: yellow;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  margin-bottom: 0.42666667rem;
+}
+.updatePassword .forgetPw {
+  color: #3dccec;
+}
 .center {
   position: absolute;
   left: 0;
@@ -726,6 +794,7 @@ button {
 }
 .ng-invalid + span {
   position: absolute;
-  right: 0;
+  right: 0.42666667rem;
   color: red;
+  line-height: 1.49333333rem;
 }

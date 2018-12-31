@@ -44,7 +44,7 @@ public class TrainModelController {
             fileWriter = new FileWriter(newFile);
             bufferedWriter=new BufferedWriter(fileWriter);
             bufferedWriter.flush();
-            if(index.size()>0&&type.equals("s")){
+            if(index.size()>0&&type.equals("学生")){
                 System.out.println("进入文件输入系统");
                 for(Index i:index){
                     System.out.println("开始写入内容");
@@ -84,7 +84,7 @@ public class TrainModelController {
                 List biase = map.get("biase");
                 biase.stream().forEach(System.out::println);
                 return map;
-            }else if(index.size()>0&&type.equals("t")){
+            }else if(index.size()>0&&type.equals("老师")){
                 for(Index i:index){
                     bufferedWriter.write(i.getQ1()+"-");
                     bufferedWriter.write(i.getQ2()+"-");

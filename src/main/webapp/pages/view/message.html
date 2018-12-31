@@ -1,1 +1,11 @@
 <div app-head-bar text="消息"></div>
+<div class="message">
+  <div class="msgList clearfix" ui-sref="messageDetail({id:message.id})" ng-repeat="message in data">
+    <img src="../img/photo.jpg">
+    <div class="msgContent">
+      <h3>{{message.title}}</h3>
+      <span>{{message.postName}}</span>
+      <span>{{message.time}}</span>
+    </div>
+  </div>
+</div>

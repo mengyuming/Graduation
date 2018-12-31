@@ -1,20 +1,28 @@
-<div class="register">
- <div class="contain">
-   <select class="btn-block" name="identify" id="identify" ng-model="user.identify" ng-init="user.identify='1'">
-     <option value="stu" ng-selected="user.identify==1">学生</option>
-     <option value="tch" ng-selected="user.identify==2">老师</option>
+<div class="register" >
+ <div class="contain" name="form">
+   <select class="btn-block" name="identify" id="identify" ng-model="user.identify" ng-init="user.identify='学生'">
+     <option value="stu" ng-selected="user.identify=='学生'">学生</option>
+     <option value="tch" ng-selected="user.identify=='老师'">老师</option>
    </select>
    <div class="put">
      <span  class="icon glyphicon glyphicon-flag" aria-hidden="true"></span>
      <input class="bg" type="text" validator="required,chinese" ng-model="user.school" placeholder="输入学校名称">
    </div>
    <div class="put">
-     <span  class="icon glyphicon glyphicon-earphone" aria-hidden="true"></span>
-     <input class="bg" type="text" ng-model="user.phone" validator="required,phone" placeholder="输入手机号">
+     <span  class="icon glyphicon glyphicon-user" aria-hidden="true"></span>
+     <input class="bg" type="text" validator="required,chinese" ng-model="user.name" placeholder="输入姓名">
+   </div>
+   <div class="put">
+     <span  class="icon glyphicon glyphicon-education" aria-hidden="true"></span>
+     <input class="bg" type="text" validator="required" ng-model="user.grade" placeholder="填写入校时间 如：2015">
    </div>
    <div class="put">
      <span  class="icon glyphicon glyphicon-user" aria-hidden="true"></span>
      <input class="bg" type="text" ng-model="user.id" validator="required,id" placeholder="输入账号">
+   </div>
+   <div class="put">
+     <span  class="icon glyphicon glyphicon-envelope" aria-hidden="true"></span>
+     <input class="bg" type="text" ng-model="user.email" validator="required,email" placeholder="输入邮箱">
    </div>
    <div class="put">
      <span  class="icon glyphicon glyphicon-lock" aria-hidden="true"></span>
@@ -22,12 +30,16 @@
    </div>
    <div class="put">
      <span  class="icon glyphicon glyphicon-lock" aria-hidden="true"></span>
-     <input class="bg" type="password" ng-model="user.pw2" validator="required" placeholder="确认密码">
+     <input class="bg" type="password" ng-model="user.pw2" placeholder="确认密码">
      <span class="samepw" ng-show="user.pw1!=user.pw2">两次密码不一致</span>
    </div>
+   <div class="msg">
+     <input type="text" ng-model="user.msg" placeholder="邮箱验证码">
+     <span class="post {{time?'disabled':''}}"  ng-click="time?1==1:send();">{{time?time:'发送邮箱'}}</span>
+   </div>
    <div class="btns">
-     <button ui-sref="login" class="loginbtn">登录</button>
-     <button class="regbtn">注册</button>
+     <button class="regbtn" ng-click="submit()">注册</button>
+     <button ui-sref="login" class="loginbtn">取消</button>
    </div>
  </div>
 </div>

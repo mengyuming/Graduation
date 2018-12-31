@@ -1,1 +1,16 @@
 <div app-head-bar text="课程表"></div>
+<div class="course">
+  <div class="list">
+    <div class="list-group" ng-repeat="item in data">
+      <div class="list-group-item bgColor">
+        <h4 class="list-group-item-heading">{{item.cname}}</h4>
+        <p class="list-group-item-text">
+        <div>代课老师：{{item.tid}}</div>
+        <div>课程日期：{{item.week}}</div>
+        <div>课程时间：{{item.time}}</div>
+        <div>课程地点：{{item.place}}</div>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

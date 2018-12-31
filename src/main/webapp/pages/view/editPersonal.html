@@ -1,25 +1,29 @@
-<div app-head-bar text="个人中心"></div>
-<div class="personal">
+<div app-head-bar text="编辑资料"></div>
+<div class="edit">
   <div class="list">
     <div class="title">
       <span class="glyphicon glyphicon-triangle-right"></span>
       <span>个人信息</span>
     </div>
+
     <div class="item">
       <span>姓名</span>
-      <span>{{user.name}}</span>
+      <input type="text" ng-model="user.name" validator="required,chinese">
     </div>
     <div class="item">
       <span>性别</span>
-      <span>{{user.gender=='null'?'':user.gender}}</span>
+      <select name="sex" id="sex" ng-model="user.gender">
+        <option value="男" ng-selected="user.gender =='男'">男</option>
+        <option value="女" ng-selected="user.gender =='女'">女</option>
+      </select>
     </div>
     <div class="item">
       <span>民族</span>
-      <span>{{user.nation=='null'?'':user.nation}}</span>
+      <input type="text" ng-model="user.nation" validator="required,chinese">
     </div>
     <div class="item">
       <span>生日</span>
-      <span>{{user.birth=='null'?'':user.birth}}</span>
+      <input type="text" ng-model="user.birth" validator="required,birth">
     </div>
   </div>
   <div class="list">
@@ -29,19 +33,19 @@
     </div>
     <div class="item">
       <span>学号</span>
-      <span>{{user.stunum?user.stunum:user.tchnum}}</span>
+      <input type="text" ng-model="user.stunum" disabled>
     </div>
     <div class="item">
       <span>学院</span>
-      <span>{{user.depart}}</span>
+      <input type="text" ng-model="user.institute" validator="chinese">
     </div>
-    <div class="item" ng-show="user.stunum">
+    <div class="item">
       <span>年级</span>
-      <span>{{user.grade=='null'?'':user.grade}}</span>
+      <input type="text" ng-model="user.grade" validator="required">
     </div>
-    <div class="item" ng-show="user.stunum">
+    <div class="item">
       <span>班级</span>
-      <span>{{user.class=='null'?'':user.class}}</span>
+      <input type="text" ng-model="user.class" validator="required">
     </div>
   </div>
   <div class="list">
@@ -51,16 +55,16 @@
     </div>
     <div class="item">
       <span>手机号</span>
-      <span>{{user.telephone==''?'':user.telephone}}</span>
+      <input type="text" ng-model="user.phone" validator="phone">
     </div>
     <div class="item">
       <span>邮箱</span>
-      <span>{{user.email}}</span>
+      <input type="text" ng-model="user.email" disabled>
     </div>
     <div class="item">
       <span>个性签名</span>
-      <span>{{user.text=='null'?'':user.text}}</span>
+      <input type="text" ng-model="user.sign">
     </div>
   </div>
-  <button ui-sref="editPersonal">编辑资料</button>
+  <button ng-click="submit()">提交</button>
 </div>

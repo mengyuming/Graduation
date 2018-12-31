@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,6 +38,9 @@ public class GraduationApplicationTests {
 
     @Autowired
     CourseDao courseDao;
+
+    @Autowired
+    RedisTemplate redisTemplate;
 
     @Autowired
     MyModelTrain myModelTrain;
@@ -146,7 +150,7 @@ public class GraduationApplicationTests {
 
     @Test
     public void testRedis(){
-        List<Integer> list= Arrays.asList(1,2,3,4,5);
+
 
 
 

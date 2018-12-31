@@ -1,10 +1,10 @@
 <div class="head">
-  <input class="search" mh-click="check(this.value)" type="text" placeholder="Search for..." ng-model="search">
-  <select name="list" class="btn-default" >
-    <option value="name">姓名</option>
-    <option value="course">课程</option>
-    <option value="id">工号</option>
-    <option value="others">其他</option>
+  <input class="search" ng-blur="check(search)" type="text" placeholder="Search for..." ng-model="search">
+  <select name="list" class="btn-default"  ng-init="type='姓名'" ng-model="type">
+    <option value="name" ng-selected="type=='姓名'">姓名</option>
+    <option value="course" ng-selected="type=='课程'">课程</option>
+    <option value="id" ng-selected="type=='工号'">工号</option>
+    <option value="others" ng-selected="type=='其他'">其他</option>
   </select>
-  <input class="btn" type="button" class="btn" value="G0!">
+  <input class="btn" type="button" class="btn" ng-click="send()" value="G0!">
 </div>

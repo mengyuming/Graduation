@@ -31,21 +31,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 
 @Service
-@CacheConfig(cacheNames="index",cacheManager = "indexRedisCacheManager")
 public class IndexService {
 
     @Autowired
     private IndexDao indexsystemDao;
 
-    @Qualifier("indexRedisCacheManager")
-    @Autowired
-    CacheManager indexRedisCacheManager;
-
     @Autowired
     MyRunner myRunner;
 
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(cacheNames="index",allEntries=true)
     public String addAllIndex(Index index, HttpServletRequest request) {
         ServletContext app = request.getServletContext();
         index.setTimes(LocalDate.now().toString());
@@ -152,7 +146,6 @@ public class IndexService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    @Cacheable(key = "#user.id+#user.type+#user.name")
     public CopyOnWriteArrayList<Index> getMyIndex(User user,HttpServletRequest request) {
         //User user = (User)request.getSession().getAttribute("user");
         //从springsecurity中获取登陆用户的信息
@@ -181,7 +174,6 @@ public class IndexService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    @Cacheable(key = "#user.id+#user.name")
     public CopyOnWriteArrayList<Index> getOtherIndex(User user,HttpServletRequest request) {
    //     User user = (User)request.getSession().getAttribute("user");
 //        String usernumber1 = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -201,7 +193,6 @@ public class IndexService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    //@Cacheable(key="#all")
     public ConcurrentHashMap<String,List<Index>> getAllIndex(String all) {
 
         String usernumber = SecurityContextHolder.getContext().getAuthentication().getName();
