@@ -18,14 +18,18 @@ public class Course implements Serializable{
 
 	private Integer id;
 	private String cno;
-	private Integer weekth;
-	private Integer time;
+	private String weekth;
+	private String time;
 	private Integer tid;
 	private Integer grade;
 	private String cname;
 	private String day;
 	private String pname;
 	private String place;
+	private String depart;
+	private String campus;
+	private Integer studentnumber;
+	private String tname;
 
 	
 }

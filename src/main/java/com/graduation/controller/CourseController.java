@@ -60,4 +60,11 @@ public class CourseController {
         List<Course> courseByCno = courseService.getCourseByCno(cno);
         return courseByCno;
     }
+
+    @ApiOperation("根据学院，专业与名称获取课程")
+    @RequestMapping(value = "/getTeaCourse",method = RequestMethod.GET)
+    public Object getTeaCourse(String depart,String professional,String coursename,String teaname){
+        List<Course> teaCourse = courseService.getTeaCourse(depart, professional, coursename,teaname);
+        return teaCourse;
+    }
 }

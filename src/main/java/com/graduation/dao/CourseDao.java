@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.graduation.bean.Course;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface CourseDao extends BaseMapper<Course>{
@@ -22,4 +23,7 @@ public interface CourseDao extends BaseMapper<Course>{
 	CopyOnWriteArrayList<Course> getStuCourse(@Param("professional") String professional, @Param("grade") String grade);
 
     List<Course> getCourseByCno(@Param("cno")String cno);
+
+    @Select("select * from course where depart=#{depart} and pname=#{professional} and cname=#{coursename} and tname=#{teaname}")
+    List<Course> getTeaCourse(String depart, String professional, String coursename,String teaname);
 }

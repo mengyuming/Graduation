@@ -53,34 +53,30 @@ public class CourseService {
     public Map<String, Course> getCourseList(User user) {
         String type = user.getType();
         if (type != null && type.equals("学生")) {
-            Map<String,Course> maps= redisTemplate.opsForHash().entries(user.getId()+"map1");
-            if(maps!=null&&!maps.isEmpty()){
-                return maps;
-            }
-            System.out.println(user.getProfessional());
-            System.out.println(user.getGrade());
+//            Map<String,Course> maps= redisTemplate.opsForHash().entries(user.getId()+"map1");
+//            if(maps!=null&&!maps.isEmpty()){
+//                return maps;
+//            }
             List<Course> stuCourse = courseDao.getStuCourse(user.getProfessional(), user.getGrade());
             ConcurrentHashMap<String, Course> map = new ConcurrentHashMap<>();
             for (int i = 0; i < stuCourse.size(); i++) {
                 map.put(i + "1", stuCourse.get(i));
             }
-            redisTemplate.opsForHash().putAll(user.getId()+"map1",map);
+            //redisTemplate.opsForHash().putAll(user.getId()+"map1",map);
 
             return map;
 
         } else if (type != null && type.equals("老师")) {
-            Map<String,Course> maps= redisTemplate.opsForHash().entries(user.getId()+"map2");
-            if(maps!=null&&!maps.isEmpty()){
-                return maps;
-            }
-            System.out.println(user.getProfessional());
-            System.out.println(user.getGrade());
+//            Map<String,Course> maps= redisTemplate.opsForHash().entries(user.getId()+"map2");
+//            if(maps!=null&&!maps.isEmpty()){
+//                return maps;
+//            }
             List<Course> stuCourse = courseDao.getTeaCourse(user.getId());
             ConcurrentHashMap<String, Course> map = new ConcurrentHashMap<>();
             for (int i = 0; i < stuCourse.size(); i++) {
                 map.put(i + "1", stuCourse.get(i));
             }
-            redisTemplate.opsForHash().putAll(user.getId()+"map2",map);
+            //redisTemplate.opsForHash().putAll(user.getId()+"map2",map);
 
             return map;
 
@@ -91,6 +87,10 @@ public class CourseService {
     @Transactional(rollbackFor = Exception.class)
     public List<Course> getCourseByCno(String cno) {
         return courseDao.getCourseByCno(cno);
+    }
+
+    public List<Course> getTeaCourse(String depart, String professional, String coursename,String teaname) {
+        return courseDao.getTeaCourse(depart,professional,coursename,teaname);
     }
 }
 
