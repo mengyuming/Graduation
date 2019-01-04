@@ -9,7 +9,7 @@
   	insert into student (stunum,school,type,password,name,grade,email) values (#{stu.stunum},#{stu.school},#{stu.type},#{stu.password},#{stu.name},#{stu.grade},#{stu.email})
   </insert>
     <insert id="teaRegister" useGeneratedKeys="true" keyProperty="id">
-  	insert into teacher (teanum,school,type,password,name,email) values (#{tea.stunum},#{tea.school},#{tea.type},#{tea.password},#{tea.name},#{tea.email})
+  	insert into teacher (stunum,school,type,password,name,email) values (#{tea.stunum},#{tea.school},#{tea.type},#{tea.password},#{tea.name},#{tea.email})
   </insert>
     <select id="stuLogin"  resultType="user">
   	select * from student where stunum=#{num}

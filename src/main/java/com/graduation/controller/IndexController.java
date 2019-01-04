@@ -70,7 +70,9 @@ public class IndexController {
 
     @ApiOperation("新增评论得分")
     @RequestMapping(value = "/addAllIndex",method = RequestMethod.POST)
+
     public ControMessage addAllIndex(Index indexsystem, HttpServletRequest request){
+        System.out.println(indexsystem);
         List<Course> courseByCno = courseService.getCourseByCno(indexsystem.getCno());
         if(courseByCno==null||courseByCno.size()<=0){
             controMessage.contrlError().setMessage("操作失败！没有此课程编号！");

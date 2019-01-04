@@ -5,6 +5,8 @@ body {
 input[disabled] {
   background: white;
 }
+
+
 html,
 body,
 span,
@@ -32,9 +34,7 @@ img {
 ul {
   list-style: none;
 }
-a,
-input,
-button {
+a, input, button,select {
   -webkit-appearance: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   border: none;

@@ -1,7 +1,10 @@
-<div app-head-bar text="我的老师"></div>
+<div app-head-bar text="我的课程"></div>
 <div class="myTeacher" >
-  <div class="teacher">Teacher Name</div>
-  <div ng-repeat="teacher in teachers">
-    <div class="teacherList" ui-sref="evaluation({id:teacher.id})">{{teacher.name}}</div>
+  <div class="teacher">Course Name</div>
+  <div ng-repeat="course in courses">
+    <div class="teacher" ui-sref="evaluation({id:course.id})">
+      <span>{{course.id}}</span>
+      <span>{{course.cname}}</span>
+    </div>
   </div>
 </div>

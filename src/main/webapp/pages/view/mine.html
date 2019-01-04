@@ -11,9 +11,13 @@
       <div>评教记录</div>
     </button>
     <span></span>
-    <button ui-sref="myTeacher" class="myTch">
+    <button ng-show="type=='学生'" ui-sref="myTeacher" class="myTch">
       <div>5</div>
       <div>任课老师</div>
+    </button>
+    <button ng-hide="type=='学生'" ui-sref="myTeacher" class="myTch">
+      <div>1</div>
+      <div>1111</div>
     </button>
   </div>
   <div class="my">

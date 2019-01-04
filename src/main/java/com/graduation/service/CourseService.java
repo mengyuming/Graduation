@@ -35,13 +35,13 @@ public class CourseService {
 
     @Transactional(rollbackFor = Exception.class)
     public List<Course> getChoice(String type, String messages) {
-        if (type.equals("name")) {
+        if (type.equals("姓名")) {
             List<Course> course = courseDao.getCourseByTeaName(messages);
             return course;
-        } else if (type.equals("course")) {
+        } else if (type.equals("课程")) {
             List<Course> course = courseDao.getCourseByName(messages);
             return course;
-        } else if (type.equals("id")) {
+        } else if (type.equals("工号")) {
             List<Course> course = courseDao.getCourseByTeaNo(messages);
             return course;
         }

@@ -10,12 +10,11 @@
       <div ng-hide="isShow1">
         <div class="question" ng-repeat="question in question1" >
           <div class="queTitle">{{question.q}}</div>
-          <input type="radio" class="rdo clearfix" ng-model="$parent.B[$index]" value="b1" ><span>{{question.a1}}</span>
-          <input type="radio" class="rdo clearfix" ng-model="$parent.B[$index]" value="b2" ><span>{{question.a2}}</span>
-          <input type="radio" class="rdo clearfix" ng-model="$parent.B[$index]" value="b3" ><span>{{question.a3}}</span>
-          <input type="radio" class="rdo clearfix" ng-model="$parent.B[$index]" value="b4" ><span>{{question.a4}}</span>
+          <input type="radio" class="rdo clearfix" ng-model="$parent.A[$index]" value="1" ><span>{{question.a1}}</span>
+          <input type="radio" class="rdo clearfix" ng-model="$parent.A[$index]" value="0.75" ><span>{{question.a2}}</span>
+          <input type="radio" class="rdo clearfix" ng-model="$parent.A[$index]" value="0.5" ><span>{{question.a3}}</span>
+          <input type="radio" class="rdo clearfix" ng-model="$parent.A[$index]" value="0.25" ><span>{{question.a4}}</span>
         </div>
-        <button class="btn" ng-click="submit()">提交</button>
       </div>
     </div>
 
@@ -29,16 +28,15 @@
       <div ng-hide="isShow2">
         <div class="question" ng-repeat="question in question2">
           <div class="queTitle">{{question.q}}</div>
-          <input type="radio" class="rdo clearfix" ng-model="$parent.C[$index]" value="c1" ><span>{{question.a1}}</span>
-          <input type="radio" class="rdo clearfix" ng-model="$parent.C[$index]" value="c2" ><span>{{question.a2}}</span>
-          <input type="radio" class="rdo clearfix" ng-model="$parent.C[$index]" value="c3" ><span>{{question.a3}}</span>
-          <input type="radio" class="rdo clearfix" ng-model="$parent.C[$index]" value="c4" ><span>{{question.a4}}</span>
+          <input type="radio" class="rdo clearfix" ng-model="$parent.B[$index]" value="1" ><span>{{question.a1}}</span>
+          <input type="radio" class="rdo clearfix" ng-model="$parent.B[$index]" value="0.75" ><span>{{question.a2}}</span>
+          <input type="radio" class="rdo clearfix" ng-model="$parent.B[$index]" value="0.5" ><span>{{question.a3}}</span>
+          <input type="radio" class="rdo clearfix" ng-model="$parent.B[$index]" value="0.25" ><span>{{question.a4}}</span>
         </div>
-        <button class="btn" ng-click="submit()">提交</button>
       </div>
     </div>
 
-    <div ng-show="type">
+    <div ng-show="type=='学生'">
       <div class="title" ng-click="toggle3()">
         <span class="glyphicon glyphicon-hand-right fl"></span>
         <span>学生课堂体验</span>
@@ -47,16 +45,16 @@
       <div ng-hide="isShow3">
         <div class="question" ng-repeat="question in question3" >
           <div class="queTitle">{{question.q}}</div>
-          <input type="radio" class="rdo clearfix" ng-model="$parent.D[$index]" value="d1" ><span>{{question.a1}}</span>
-          <input type="radio" class="rdo clearfix" ng-model="$parent.D[$index]" value="d2" ><span>{{question.a2}}</span>
-          <input type="radio" class="rdo clearfix" ng-model="$parent.D[$index]" value="d3" ><span>{{question.a3}}</span>
-          <input type="radio" class="rdo clearfix" ng-model="$parent.D[$index]" value="d4" ><span>{{question.a4}}</span>
+          <input type="radio" class="rdo clearfix" ng-model="$parent.C[$index]" value="1" ><span>{{question.a1}}</span>
+          <input type="radio" class="rdo clearfix" ng-model="$parent.C[$index]" value="0.75" ><span>{{question.a2}}</span>
+          <input type="radio" class="rdo clearfix" ng-model="$parent.C[$index]" value="0.5" ><span>{{question.a3}}</span>
+          <input type="radio" class="rdo clearfix" ng-model="$parent.C[$index]" value="0.25" ><span>{{question.a4}}</span>
         </div>
         <button class="btn" ng-click="submit()">提交</button>
       </div>
     </div>
 
-    <div ng-hide="type">
+    <div ng-hide="type=='学生'">
       <div class="title" ng-click="toggle4()">
         <span class="glyphicon glyphicon-hand-right fl"></span>
         <span>老师与学生互动</span>
@@ -65,14 +63,15 @@
       <div ng-hide="isShow4">
         <div class="question" ng-repeat="question in question4">
           <div class="queTitle">{{question.q}}</div>
-          <input type="radio" class="rdo clearfix" ng-model="$parent.E[$index]" value="e1" ><span>{{question.a1}}</span>
-          <input type="radio" class="rdo clearfix" ng-model="$parent.E[$index]" value="e2" ><span>{{question.a2}}</span>
-          <input type="radio" class="rdo clearfix" ng-model="$parent.E[$index]" value="e3" ><span>{{question.a3}}</span>
-          <input type="radio" class="rdo clearfix" ng-model="$parent.E[$index]" value="e4" ><span>{{question.a4}}</span>
+          <input type="radio" class="rdo clearfix" ng-model="$parent.D[$index]" value="1" ><span>{{question.a1}}</span>
+          <input type="radio" class="rdo clearfix" ng-model="$parent.D[$index]" value="0.75" ><span>{{question.a2}}</span>
+          <input type="radio" class="rdo clearfix" ng-model="$parent.D[$index]" value="0.5" ><span>{{question.a3}}</span>
+          <input type="radio" class="rdo clearfix" ng-model="$parent.D[$index]" value="0.25" ><span>{{question.a4}}</span>
         </div>
-        <button class="btn" ng-click="submit()">提交</button>
+          <button class="btn" ng-click="submit()">提交</button>
       </div>
-    </div>
 
+
+    </div>
   </div>
 </div>

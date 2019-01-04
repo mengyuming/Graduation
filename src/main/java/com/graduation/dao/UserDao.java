@@ -28,13 +28,13 @@ public interface UserDao extends BaseMapper<User>{
 	
 	public void updateTeaInformation(@Param("user") User user);
 
-    @Select("SELECT * FROM teacher where teanum=#{number}")
+    @Select("SELECT * FROM teacher where stunum=#{number}")
     public User getTeaByStunum(@Param("number") String number);
 
     @Select("SELECT * FROM student where stunum=#{number}")
     public User getStuByTeanum(@Param("number") String number);
 
-    @Select("SELECT * FROM teacher where teanum=#{s}")
+    @Select("SELECT * FROM teacher where stunum=#{s}")
     public User getTeaByNum(@Param("s") String s);
 
     @Select("SELECT * FROM student where stunum=#{s}")

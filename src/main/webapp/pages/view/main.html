@@ -1,12 +1,42 @@
+<div class="headBar" >
+    <span>搜索</span>
+</div>
 <div class="head">
     <input class="search" ng-blur="check(search)" type="text" placeholder="Search for..." ng-model="search">
     <select name="list" class="btn-default"  ng-init="type='姓名'" ng-model="type">
-        <option value="name" ng-selected="type=='姓名'">姓名</option>
-        <option value="course" ng-selected="type=='课程'">课程</option>
-        <option value="id" ng-selected="type=='工号'">工号</option>
-        <option value="others" ng-selected="type=='其他'">其他</option>
+        <option value="姓名" ng-selected="type=='姓名'">姓名</option>
+        <option value="课程" ng-selected="type=='课程'">课程</option>
+        <option value="工号" ng-selected="type=='工号'">工号</option>
     </select>
     <input class="btn" type="button" class="btn" ng-click="send()" value="G0!">
+</div>
+<div class="find">
+    <div class="fl">
+        <div class="form-group label-floating">
+            <select class="self" name="college" id="college" ng-options="c.college for c in colleges" ng-model="college" ng-change="changeCollege(college)">
+                <option value="">--请选择学院--</option>
+            </select>
+        </div>
+    </div>
+    <div class="fl">
+        <div class="form-group">
+            <select class="self" name="major" id="major" ng-options="m.major for m in college.majors" ng-model="major" ng-change="changeMajor(major)">
+                <option value="">--请选择专业--</option>
+            </select>
+        </div>
+    </div>
+    <div class="fl">
+        <div class="form-group">
+            <select class="self" name="course" id="course" ng-options="course for course in major.children" ng-model="course">
+                <option value="">--请选择课程--</option>
+            </select>
+        </div>
+    </div>
+    <div class="fl">
+        <div class="form-group">
+            <input class="btn" type="button" class="btn" ng-click="find()" value="G0!">
+        </div>
+    </div>
 </div>
 <div class="content">
     <ul class="listhead">
@@ -15,10 +45,12 @@
         <li>专业</li>
         <li>年级</li>
     </ul>
-    <ul class="list" ng-repeat = "item in data">
-        <li>{{item.name}}</li>
+    <ul class="list" ng-repeat = "item in data" ng-click="jump()">
         <li>{{item.id}}</li>
-        <li>{{item.cour}}</li>
+        <li>{{item.cname}}</li>
+        <li>{{item.pname}}</li>
+        <li>{{item.grade}}</li>
     </ul>
+
 </div>
 <div app-footer></div>
