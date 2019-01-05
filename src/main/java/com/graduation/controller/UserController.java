@@ -8,14 +8,25 @@ import com.graduation.service.EmailSendService;
 import com.graduation.service.MyUserDetailService;
 import com.graduation.service.UserService;
 import com.graduation.tools.ControMessage;
+import com.sun.istack.internal.logging.Logger;
 import io.swagger.annotations.ApiOperation;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -167,5 +178,93 @@ public class UserController {
         }
         controMessage.contrlError().setMessage("操作失败！");
         return controMessage;
+    }
+
+    //以下是管理员操作请求
+    //------------------------------------------------------------
+    @ApiOperation("管理员新增老师")
+    @RequestMapping(value = "addTeacher",method = RequestMethod.POST)
+    public ControMessage addTeacher(User user,HttpServletRequest request){
+        String encode = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encode);
+        boolean flag=userService.addTeacher(user,request);
+        if(flag){
+            controMessage.contrlSuccess().setMessage("操作成功");
+            return controMessage;
+        }
+        controMessage.contrlError().setMessage("操作失败！");
+        return controMessage;
+    }
+
+
+    @ApiOperation("获取所有老师信息，在管理员修改老师信息的时候用得到")
+    @RequestMapping(value = "getAllTeacher",method = RequestMethod.POST)
+    public ControMessage getAllTeacher(){
+        List<User> user=userService.getAllTeacher();
+        if(user!=null&&user.size()>0){
+            controMessage.contrlSuccess().setMessage("操作成功").setAll().add(user);
+            return controMessage;
+        }
+        controMessage.contrlError().setMessage("内部服务错误！！！");
+        return controMessage;
+    }
+
+    @ApiOperation("管理员修改老师信息")
+    @RequestMapping(value = "updateTeacher",method = RequestMethod.POST)
+    public ControMessage updateTeacher(User user,HttpServletRequest request){
+        User user1 = (User)request.getSession().getAttribute("user");
+        if(!user1.getType().equals("管理员")){
+            controMessage.contrlError().setMessage("操作失败！权限不够");
+            return controMessage;
+        }
+        userService.updateTeacher(user);
+        controMessage.contrlSuccess().setMessage("操作成功");
+        return controMessage;
+    }
+
+    @ApiOperation("管理员导入课程---还未完成")
+    @RequestMapping(value="/upload",method = RequestMethod.POST)
+    public String  uploadLibExcel(HttpServletRequest request, @RequestParam("file")MultipartFile file, Model model) throws IOException {
+        User user = (User)request.getSession().getAttribute("user");
+        if(!user.getType().equals("管理员")){
+            return "操作失败！权限不够！";
+        }
+        String originalFilename = file.getOriginalFilename();
+        Logger logger = Logger.getLogger(this.getClass());
+        System.out.println(originalFilename);
+        logger.info(originalFilename);
+        String contentType = file.getContentType();
+        logger.info(contentType);
+        System.out.println(contentType);
+        HSSFWorkbook workbook = new HSSFWorkbook(new POIFSFileSystem(file.getInputStream()));
+
+        //获取一共有多少sheet，然后遍历
+        int numberOfSheets = workbook.getNumberOfSheets();
+        for (int i = 0; i < numberOfSheets; i++) {
+            HSSFSheet sheet = workbook.getSheetAt(i);
+            //获取sheet中一共有多少行，遍历行（注意第一行是标题）
+            int physicalNumberOfRows = sheet.getPhysicalNumberOfRows();
+
+            for (int j = 0; j < physicalNumberOfRows; j++) {
+                if (j == 0) {
+                    continue;//标题行
+                }
+                Sheet sheet1 = workbook.getSheetAt(0);
+                for (Row row : sheet1) {
+                    int index = 0;
+                    for (Cell cell : row) {
+                        //读取数据前设置单元格类型
+                        cell.setCellType(CellType.STRING);
+                        String value = cell.getStringCellValue();
+                        System.out.print("value:" + value + " ");
+                        index++;
+                    }
+                    System.out.println();
+                }
+
+            }
+
+        }
+        return "操作成功！";
     }
 }

@@ -8,7 +8,7 @@
 	select * from course where tid in (select id from teacher where name=#{message})
 </select>
 <select id="getCourseByTeaNo" resultType="course">
-	select * from course where tid in (select id from teacher where teanum=#{message})
+	select * from course where tid in (select id from teacher where stunum=#{message})
 </select>
 <select id="getCourseByName" resultType="course">
 	select * from course where cname=#{message}

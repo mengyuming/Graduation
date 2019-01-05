@@ -12,9 +12,9 @@ import java.util.List;
 @Mapper
 public interface UserDao extends BaseMapper<User>{
 
-	public void stuRegister(@Param("stu") User stu);
+	public void stuRegister(@Param("user") User user);
 
-	public void teaRegister(@Param("tea") User tea);
+	public boolean teaRegister(@Param("user") User user);
 
 	public User stuLogin(@Param("num") String num);
 
@@ -48,4 +48,10 @@ public interface UserDao extends BaseMapper<User>{
 
     @Select("SELECT * FROM teacher where professional=#{professional}")
     public List<User> getMyAllTeacher(@Param("professional") String professional);
+
+    @Select("SELECT * FROM manager where stunum=#{s}")
+    public User getManager(String s);
+
+    @Select("select * from teacher")
+    List<User> getAllTeacher();
 }

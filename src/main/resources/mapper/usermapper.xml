@@ -5,12 +5,12 @@
 <mapper namespace="com.graduation.dao.UserDao">
 
 
-    <insert id="stuRegister" useGeneratedKeys="true" keyProperty="id">
-  	insert into student (stunum,school,type,password,name,grade,email) values (#{stu.stunum},#{stu.school},#{stu.type},#{stu.password},#{stu.name},#{stu.grade},#{stu.email})
-  </insert>
-    <insert id="teaRegister" useGeneratedKeys="true" keyProperty="id">
-  	insert into teacher (stunum,school,type,password,name,email) values (#{tea.stunum},#{tea.school},#{tea.type},#{tea.password},#{tea.name},#{tea.email})
-  </insert>
+    <!--<insert id="stuRegister" useGeneratedKeys="true" keyProperty="id">-->
+  	<!--insert into student (stunum,school,type,password,name,grade,email) values (#{stu.stunum},#{stu.school},#{stu.type},#{stu.password},#{stu.name},#{stu.grade},#{stu.email})-->
+  <!--</insert>-->
+    <!--<insert id="teaRegister" useGeneratedKeys="true" keyProperty="id">-->
+  	<!--insert into teacher (stunum,school,type,password,name,email) values (#{tea.stunum},#{tea.school},#{tea.type},#{tea.password},#{tea.name},#{tea.email})-->
+  <!--</insert>-->
     <select id="stuLogin"  resultType="user">
   	select * from student where stunum=#{num}
   </select>
@@ -57,5 +57,111 @@
         </trim>
         where id=#{user.id}
     </update>
+
+
+    <insert id="stuRegister" useGeneratedKeys="true" keyProperty="id">
+        insert into student(<include refid="key"/>)
+        values(<include refid="values"/>)
+    </insert>
+
+    <insert id="teaRegister" useGeneratedKeys="true" keyProperty="id">
+        insert into teacher(<include refid="key"/>)
+        values(<include refid="values"/>)
+    </insert>
+
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="user.stunum!=null and user.stunum!=''">
+                stunum,
+            </if>
+            <if test="user.school!=null and user.school!=''">
+                school,
+            </if>
+            <if test="user.telephone!=null and user.telephone!=''">
+                telephone,
+            </if>
+            <if test="user.age!=null and user.age!=''">
+                age,
+            </if>
+            <if test="user.password!=null and user.password!=''">
+                password,
+            </if>
+            <if test="user.gender!=null and user.gender!=''">
+                gender,
+            </if>
+            <if test="user.type!=null and user.type!=''">
+                type,
+            </if>
+            <if test="user.name!=null and user.name!=''">
+                name,
+            </if>
+            <if test="user.depart!=null and user.depart!=''">
+                depart,
+            </if>
+            <if test="user.email!=null and user.email!=''">
+                email,
+            </if>
+            <if test="user.professional!=null and user.professional!=''">
+                professional,
+            </if>
+            <if test="user.nation!=null and user.nation!=''">
+                nation,
+            </if>
+            <if test="user.signature!=null and user.signature!=''">
+                signature,
+            </if>
+            <if test="user.grade!=null and user.grade!=''">
+                grade,
+            </if>
+        </trim>
+    </sql>
+
+    <!-- 对应的插入字段的值 -->
+    <sql id="values">
+        <trim suffixOverrides=",">
+            <if test="user.stunum!=null and user.stunum!=''">
+                #{user.stunum},
+            </if>
+            <if test="user.school!=null and user.school!=''">
+                #{user.school},
+            </if>
+            <if test="user.telephone!=null and user.telephone!=''">
+                #{user.telephone},
+            </if>
+            <if test="user.age!=null and user.age!=''">
+                #{user.age},
+            </if>
+            <if test="user.password!=null and user.password!=''">
+                #{user.password},
+            </if>
+            <if test="user.gender!=null and user.gender!=''">
+                #{user.gender},
+            </if>
+            <if test="user.type!=null and user.type!=''">
+                #{user.type},
+            </if>
+            <if test="user.name!=null and user.name!=''">
+                #{user.name},
+            </if>
+            <if test="user.depart!=null and user.depart!=''">
+                #{user.depart},
+            </if>
+            <if test="user.email!=null and user.email!=''">
+                #{user.email},
+            </if>
+            <if test="user.professional!=null and user.professional!=''">
+                #{user.professional},
+            </if>
+            <if test="user.nation!=null and user.nation!=''">
+                #{user.nation},
+            </if>
+            <if test="user.signature!=null and user.signature!=''">
+                #{user.signature},
+            </if>
+            <if test="user.grade!=null and user.grade!=''">
+                #{user.grade},
+            </if>
+        </trim>
+    </sql>
 
 </mapper>

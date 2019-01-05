@@ -32,6 +32,8 @@ public class MyUserDetailService implements UserDetailsService{
             userByName = userDao.getTeaByNum(s);
         }else if(type.equals("学生")){
             userByName = userDao.getStuByNum(s);
+        }else if(type.equals("管理员")){
+            userByName=userDao.getManager(s);
         }
         UserDetails userDetails=null;
         if(userByName!=null){

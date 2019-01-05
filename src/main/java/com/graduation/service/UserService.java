@@ -1,6 +1,7 @@
 package com.graduation.service;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.interceptor.KeyGenerator;
 import com.graduation.bean.User;
@@ -225,5 +226,29 @@ public class UserService {
             return null;
         }
         return userDao.getMyAllTeacher(user.getProfessional());
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean addTeacher(User user, HttpServletRequest request) {
+        User user1 = (User)request.getSession().getAttribute("user");
+        if(user1.getType().equals("管理员")){
+            return userDao.teaRegister(user);
+        }
+        return false;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @CachePut(key = "#user.stunum+#user.type")
+    public void updateTeacher(User user) {
+        User stuByTeanum = userDao.getStuByTeanum(user.getStunum());
+        if(stuByTeanum!=null){
+            user.setId(stuByTeanum.getId());
+            userDao.updateTeaInformation(user);
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public List<User> getAllTeacher() {
+        return userDao.getAllTeacher();
     }
 }
