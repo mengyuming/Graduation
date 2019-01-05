@@ -108,7 +108,7 @@ public class IndexService {
                     double[][] weights = layer.getWeights();
                     final double[] outputs = layer.getOutputs();
                     final double[] theta = layer.getBiases();
-                    double[] lastOutputs=new double[20];
+                    double[] lastOutputs=new double[14];
 
                     lastOutputs[0]= index.getQ1();
                     lastOutputs[1]= index.getQ2();
@@ -193,7 +193,7 @@ public class IndexService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ConcurrentHashMap<String,List<Index>> getAllIndex(String all) {
+    public ConcurrentHashMap<String,List<Index>> getAllIndex() {
 
         String usernumber = SecurityContextHolder.getContext().getAuthentication().getName();
         ConcurrentHashMap<String,List<Index>> map=new ConcurrentHashMap<>();

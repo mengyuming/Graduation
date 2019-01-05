@@ -44,27 +44,30 @@ public class IndexController {
 
     @ApiOperation("测试获取的权重值以及偏置值")
     @RequestMapping(value = "/testBp",method = RequestMethod.GET)
-    public void helpTest(HttpServletRequest request){
+    public void helpTest(HttpServletRequest request,String type){
         System.out.println("查询权重，偏置");
         ServletContext app = request.getServletContext();
-        Map map = (Map)app.getAttribute("s");
-        if(map!=null) {
-            //获取权重集合
-            List weight = (List) map.get("weight");
-            System.out.println(weight.size());
+        if(type!=null){
+            Map map = (Map)app.getAttribute(type);
+            if(map!=null) {
+                //获取权重集合
+                List weight = (List) map.get("weight");
+                System.out.println(weight.size());
 
-            //获取输入层到隐含层的权重
+                //获取输入层到隐含层的权重
 //            List<Double> list1 = (List<Double>) weight.get(0);
 //            System.out.println(list1.size());
 //            System.out.println("输入层到隐含层的权重："+list1.size());
-            //获取隐含层到输出层的权重
+                //获取隐含层到输出层的权重
 //            List<Double> list2 = (List<Double>) weight.get(1);
 //            System.out.println("隐含层到输出层的权重:"+list2.size());
 //            System.out.println(list2.size());
-            List biase =(List) map.get("biase");
-            System.out.println(biase.size());
-            System.out.println("偏置量"+biase.size());
+                List biase =(List) map.get("biase");
+                System.out.println(biase.size());
+                System.out.println("偏置量"+biase.size());
+            }
         }
+
     }
 
 
@@ -123,8 +126,7 @@ public class IndexController {
     @ApiOperation("获得所有的评教的结果")
     @RequestMapping(value = "/getAllIndex",method = RequestMethod.GET)
     public ControMessage getAllIndex(){
-        String all="all";
-        ConcurrentHashMap<String,List<Index>> allIndex = indexsystemService.getAllIndex(all);
+        ConcurrentHashMap<String,List<Index>> allIndex = indexsystemService.getAllIndex();
         if(allIndex!=null&&allIndex.size()>0){
             controMessage.contrlSuccess().setMessage("获取信息成功").setAll().add(allIndex);
             return  controMessage;
@@ -136,11 +138,13 @@ public class IndexController {
 
     @ApiOperation("导出所有评价结果为excel")
     @RequestMapping(value = "/downloadData",method = RequestMethod.GET)
-    public void downloadAllClassmate(String type,HttpServletResponse response) throws IOException {
+    public String downloadAllClassmate(String type,HttpServletResponse response) throws IOException {
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("信息表");
-        String all="all";
-        ConcurrentHashMap<String, List<Index>> allIndex = indexsystemService.getAllIndex(all);
+        ConcurrentHashMap<String, List<Index>> allIndex = indexsystemService.getAllIndex();
+        if(allIndex==null||allIndex.size()<1){
+            return "获取评教失败！！！";
+        }
         List<Index> indices = allIndex.get(type);
         int rowNum = 1;
         String fileName = "data"  + ".xls";//设置要导出的文件的名字
@@ -207,6 +211,6 @@ public class IndexController {
         workbook.write(outputStream);
         workbook.close();
         outputStream.close();
-
+        return "成功！！！";
     }
 }
