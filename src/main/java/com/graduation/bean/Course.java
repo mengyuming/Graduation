@@ -30,6 +30,7 @@ public class Course implements Serializable{
 	private String campus;
 	private Integer studentnumber;
 	private String tname;
+	private Integer type;
 
 	
 }

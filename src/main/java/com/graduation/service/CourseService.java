@@ -89,6 +89,7 @@ public class CourseService {
         return courseDao.getCourseByCno(cno);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public List<Course> getTeaCourse(String depart, String professional, String coursename,String teaname) {
         return courseDao.getTeaCourse(depart,professional,coursename,teaname);
     }

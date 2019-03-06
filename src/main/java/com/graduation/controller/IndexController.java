@@ -81,8 +81,13 @@ public class IndexController {
             controMessage.contrlError().setMessage("操作失败！没有此课程编号！");
             return controMessage;
         }
+        //这个type表明此课程是否为实验课  0表示为实验课
+        Integer type = courseByCno.get(0).getType();
+        if(type.equals(0)){
+            indexsystem.setOther("实验课");
+        }
+        indexsystem.setOther("普通课");
         String tid = courseByCno.get(0).getTid().toString();
-        User user =(User) request.getSession().getAttribute("user");
         User user1=userService.getUserById(Integer.valueOf(tid),"老师");
         indexsystem.setBnumber(user1.getStunum());
 
