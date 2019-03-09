@@ -27,7 +27,7 @@ public class GetOtherController {
     }
 
     @ApiOperation("根据学院获取所有专业列表")
-    @RequestMapping(value = "/getAllDepart",method = RequestMethod.GET)
+    @RequestMapping(value = "/getAllProfession",method = RequestMethod.GET)
     public Object getAllProfession(String name){
         List<Professional> list=getOtherService.getAllProfession(name);
         return list;

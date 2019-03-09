@@ -143,7 +143,11 @@ public class IndexController {
 
     @ApiOperation("导出所有评价结果为excel")
     @RequestMapping(value = "/downloadData",method = RequestMethod.GET)
-    public String downloadAllClassmate(String type,HttpServletResponse response) throws IOException {
+    public String downloadAllClassmate(String type,HttpServletRequest request,HttpServletResponse response) throws IOException {
+        User user = (User)request.getSession().getAttribute("user");
+        if(!user.getType().equals("管理员")){
+            return "权限不够！请管理员登陆";
+        }
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("信息表");
         ConcurrentHashMap<String, List<Index>> allIndex = indexsystemService.getAllIndex();
@@ -154,7 +158,7 @@ public class IndexController {
         int rowNum = 1;
         String fileName = "data"  + ".xls";//设置要导出的文件的名字
         //新增数据行，并且设置单元格数据
-        String[] headers = { "评价者编号", "被评者编号", "课程编号", "评价得分", "评价日期", "备注"};
+        String[] headers = { "评价者编号", "被评者编号", "课程编号", "评价得分", "评价日期", "课程类型", "备注"};
         //headers表示excel表中第一行的表头
         HSSFRow row = sheet.createRow(0);
         //在excel表中添加表头
@@ -189,7 +193,8 @@ public class IndexController {
                 row1.createCell(2).setCellValue(index.getCno());
                 row1.createCell(3).setCellValue(s);
                 row1.createCell(4).setCellValue(index.getTimes());
-                row1.createCell(5).setCellValue("学生评老师");
+                row1.createCell(5).setCellValue(index.getOther());
+                row1.createCell(6).setCellValue("学生评老师");
                 rowNum++;
             }
 
@@ -204,7 +209,8 @@ public class IndexController {
                 row1.createCell(2).setCellValue(index.getCno());
                 row1.createCell(3).setCellValue(index.getTotal());
                 row1.createCell(4).setCellValue(index.getTimes());
-                row1.createCell(4).setCellValue("老师评老师");
+                row1.createCell(5).setCellValue(index.getOther());
+                row1.createCell(6).setCellValue("老师评老师");
                 rowNum++;
             }
         }

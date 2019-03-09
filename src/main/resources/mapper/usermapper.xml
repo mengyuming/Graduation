@@ -164,4 +164,17 @@
         </trim>
     </sql>
 
+    <insert id="addAllStu" parameterType="java.util.List">
+        insert into student values
+        <foreach collection="list" item="addUser" index="index" separator =",">
+            (#{adduser.name})
+        </foreach>
+    </insert>
+
+    <insert id="addAllTea" parameterType="java.util.List">
+        insert into teacher values
+        <foreach collection="list" item="addUser" index="index" separator =",">
+            (#{adduser.name})
+        </foreach>
+    </insert>
 </mapper>

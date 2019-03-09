@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
@@ -54,4 +55,8 @@ public interface UserDao extends BaseMapper<User>{
 
     @Select("select * from teacher")
     List<User> getAllTeacher();
+
+    void addAllStu(ArrayList<User> addUser);
+
+    void addAllTea(ArrayList<User> addUser);
 }

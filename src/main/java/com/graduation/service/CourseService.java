@@ -1,5 +1,6 @@
 package com.graduation.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -92,6 +93,10 @@ public class CourseService {
     @Transactional(rollbackFor = Exception.class)
     public List<Course> getTeaCourse(String depart, String professional, String coursename,String teaname) {
         return courseDao.getTeaCourse(depart,professional,coursename,teaname);
+    }
+
+    public void addAllCourse(ArrayList<Course> addCourse) {
+        courseDao.addAllCourse(addCourse);
     }
 }
 

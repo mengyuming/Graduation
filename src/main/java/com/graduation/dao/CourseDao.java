@@ -1,5 +1,6 @@
 package com.graduation.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -26,4 +27,6 @@ public interface CourseDao extends BaseMapper<Course>{
 
     @Select("select * from course where depart=#{depart} and pname=#{professional} and cname=#{coursename} and tname=#{teaname}")
     List<Course> getTeaCourse(String depart, String professional, String coursename,String teaname);
+
+    void addAllCourse(ArrayList<Course> addCourse);
 }

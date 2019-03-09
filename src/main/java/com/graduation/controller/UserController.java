@@ -3,13 +3,17 @@ package com.graduation.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.graduation.bean.Course;
 import com.graduation.bean.User;
+import com.graduation.service.CourseService;
 import com.graduation.service.EmailSendService;
 import com.graduation.service.MyUserDetailService;
 import com.graduation.service.UserService;
 import com.graduation.tools.ControMessage;
 import com.sun.istack.internal.logging.Logger;
 import io.swagger.annotations.ApiOperation;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
@@ -27,7 +31,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 @Controller
@@ -37,6 +44,8 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+    @Autowired
+    private CourseService courseService;
 
 	@Autowired
     private MyUserDetailService myUserDetailService;
@@ -225,45 +234,63 @@ public class UserController {
     @ApiOperation("管理员导入课程---还未完成")
     @RequestMapping(value="/upload",method = RequestMethod.POST)
     public String  uploadLibExcel(HttpServletRequest request, @RequestParam("file")MultipartFile file, Model model) throws IOException {
-        User user = (User)request.getSession().getAttribute("user");
-        if(!user.getType().equals("管理员")){
-            return "操作失败！权限不够！";
-        }
-        String originalFilename = file.getOriginalFilename();
-        Logger logger = Logger.getLogger(this.getClass());
-        System.out.println(originalFilename);
-        logger.info(originalFilename);
-        String contentType = file.getContentType();
-        logger.info(contentType);
-        System.out.println(contentType);
-        HSSFWorkbook workbook = new HSSFWorkbook(new POIFSFileSystem(file.getInputStream()));
+        Lock lock=new ReentrantLock();
+//        User user = (User)request.getSession().getAttribute("user");
+//        if(!user.getType().equals("管理员")){
+//            return "操作失败！权限不够！";
+//        }
+        lock.lock();
+        try{
+            ArrayList<User> addUser=new ArrayList<>();
+            ArrayList<Course> addCourse=new ArrayList<>();
+            String originalFilename = file.getOriginalFilename();
+            Logger logger = Logger.getLogger(this.getClass());
+            System.out.println(originalFilename);
+            logger.info(originalFilename);
+            String contentType = file.getContentType();
+            logger.info(contentType);
+            System.out.println(contentType);
+            HSSFWorkbook workbook = new HSSFWorkbook(new POIFSFileSystem(file.getInputStream()));
 
-        //获取一共有多少sheet，然后遍历
-        int numberOfSheets = workbook.getNumberOfSheets();
-        for (int i = 0; i < numberOfSheets; i++) {
-            HSSFSheet sheet = workbook.getSheetAt(i);
-            //获取sheet中一共有多少行，遍历行（注意第一行是标题）
-            int physicalNumberOfRows = sheet.getPhysicalNumberOfRows();
+            //获取一共有多少sheet，然后遍历
+            int numberOfSheets = workbook.getNumberOfSheets();
+            for (int i = 0; i < 1; i++) {
+                //获取一个sheet也就是一个工作簿
+                HSSFSheet sheet = workbook.getSheetAt(i);
+                HSSFRow titleRow = sheet.getRow(0);
+                //表头那个单元格
+                HSSFCell titleCell = titleRow.getCell(0);
+                String title = titleCell.getStringCellValue();
+                System.out.println("标题是："+title);
 
-            for (int j = 0; j < physicalNumberOfRows; j++) {
-                if (j == 0) {
-                    continue;//标题行
+                //获取sheet中一共有多少行，遍历行（注意第一行是标题）
+                int physicalNumberOfRows = sheet.getPhysicalNumberOfRows();
+
+                for (int j = 2; j < physicalNumberOfRows; j++) {
+                    HSSFRow titleRow1 = sheet.getRow(j);
+                        //使用一个集合接受每行遍历出来的内容。
+                        ArrayList<String> list = new ArrayList<>();
+                        for (Cell cell : titleRow1) {
+                            //读取数据前设置单元格类型
+                            cell.setCellType(CellType.STRING);
+                            String value = cell.getStringCellValue();
+                            list.add(value);
+                            System.out.print("value:" + value + " ");
+                        }
+                        if(title.equals("课程表")){
+                            Course course=new Course();
+                            addCourse.add(course);
+                        }
+                        User newUser=new User();
+                        addUser.add(newUser);
                 }
-                Sheet sheet1 = workbook.getSheetAt(0);
-                for (Row row : sheet1) {
-                    int index = 0;
-                    for (Cell cell : row) {
-                        //读取数据前设置单元格类型
-                        cell.setCellType(CellType.STRING);
-                        String value = cell.getStringCellValue();
-                        System.out.print("value:" + value + " ");
-                        index++;
-                    }
-                    System.out.println();
-                }
-
+                //遍历完一个工作簿之后，将其数据添加到数据库
+                userService.addAllUser(addUser,title);
+                courseService.addAllCourse(addCourse);
             }
 
+        }finally{
+            lock.unlock();
         }
         return "操作成功！";
     }

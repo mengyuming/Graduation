@@ -36,30 +36,33 @@ public class UploadExcel {
         System.out.println(contentType);
         HSSFWorkbook workbook = new HSSFWorkbook(new POIFSFileSystem(file.getInputStream()));
 
-        //获取一共有多少sheet，然后遍历
+        //获取所有的工作表的的数量
         int numberOfSheets = workbook.getNumberOfSheets();
-        for (int i = 0; i < numberOfSheets; i++) {
+        System.out.println(numberOfSheets);
+        for (int i = 0; i < 1; i++) {
+            //获取一个sheet也就是一个工作簿
             HSSFSheet sheet = workbook.getSheetAt(i);
+            if(i==0){
+                HSSFRow titleRow = sheet.getRow(0);
+                //表头那个单元格
+                HSSFCell titleCell = titleRow.getCell(0);
+
+                String title = titleCell.getStringCellValue();
+
+                System.out.println("标题是："+title);
+            }
             //获取sheet中一共有多少行，遍历行（注意第一行是标题）
             int physicalNumberOfRows = sheet.getPhysicalNumberOfRows();
-
-            for (int j = 0; j < physicalNumberOfRows; j++) {
-                if (j == 0) {
-                    continue;//标题行
-                }
-                Sheet sheet1 = workbook.getSheetAt(0);
-                for (Row row : sheet1) {
-                    int index = 0;
-                    for (Cell cell : row) {
+            System.out.println(physicalNumberOfRows);
+            for (int j = 2; j < physicalNumberOfRows; j++) {
+                HSSFRow titleRow = sheet.getRow(j);
+                    for (Cell cell : titleRow) {
                         //读取数据前设置单元格类型
                         cell.setCellType(CellType.STRING);
                         String value = cell.getStringCellValue();
                         System.out.print("value:" + value + " ");
-                        index++;
                     }
-                    System.out.println();
-                }
-
+                    System.out.println("----------------");
             }
 
         }

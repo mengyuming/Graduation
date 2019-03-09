@@ -22,4 +22,11 @@
 <select id="getCourseByCno" resultType="com.graduation.bean.Course">
     select * from course where cno=#{cno}
 </select>
+
+    <insert id="addAllCourse" parameterType="java.util.List">
+        insert into teacher values
+        <foreach collection="list" item="addCourse" index="index" separator =",">
+            (#{adduser.name})
+        </foreach>
+    </insert>
 </mapper>

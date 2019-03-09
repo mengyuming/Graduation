@@ -1,6 +1,7 @@
 package com.graduation.service;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.graduation.dao.CourseDao;
 import com.sun.org.apache.bcel.internal.generic.RETURN;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.interceptor.KeyGenerator;
@@ -27,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,6 +38,8 @@ public class UserService {
 
 	@Autowired
     private UserDao userDao;
+
+
     @Qualifier("userRedisCacheManager")
 	@Autowired
     RedisCacheManager userRedisCacheManager;
@@ -250,5 +254,13 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public List<User> getAllTeacher() {
         return userDao.getAllTeacher();
+    }
+
+    public void addAllUser(ArrayList<User> addUser, String title) {
+	    if(title.equals("学生表")){
+	        userDao.addAllStu(addUser);
+        }else if(title.equals("教师表")){
+            userDao.addAllTea(addUser);
+        }
     }
 }

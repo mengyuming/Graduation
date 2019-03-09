@@ -47,16 +47,16 @@ public class GraduationApplicationTests {
 	@Test
 	public void contextLoads() {
         //生成随机验证码
-        Integer i = (int) ((Math.random() * 9 + 1) * 100000);
-        SimpleMailMessage message=new SimpleMailMessage();
-        message.setFrom("517868436@qq.com");
-        message.setSubject("注册验证码");
-        message.setText(i.toString());
-        message.setTo("517868436@qq.com");
-        System.out.println(javaMailSender);
-        javaMailSender.send(message);
+//        Integer i = (int) ((Math.random() * 9 + 1) * 100000);
+//        SimpleMailMessage message=new SimpleMailMessage();
+//        message.setFrom("517868436@qq.com");
+//        message.setSubject("注册验证码");
+//        message.setText(i.toString());
+//        message.setTo("517868436@qq.com");
+//        System.out.println(javaMailSender);
+//        javaMailSender.send(message);
 
-        String encode = passwordEncoder.encode("111");
+        String encode = passwordEncoder.encode("mym951210");
         System.out.println("第一次对111加密"+encode);
         String encode1=passwordEncoder.encode("111");
         System.out.println("第二次对111加密"+encode1);
