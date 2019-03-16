@@ -82,7 +82,7 @@ public class IndexController {
             return controMessage;
         }
         //这个type表明此课程是否为实验课  0表示为实验课
-        Integer type = courseByCno.get(0).getType();
+        Integer type = courseByCno.get(0).getType1();
         if(type.equals(0)){
             indexsystem.setOther("实验课");
         }

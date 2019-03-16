@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>home</title>
+
+  <link rel="stylesheet" href="../css/add.css">
+  <link rel="stylesheet" href="../css/home.css">
+  <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+  <script type="text/javascript" src="../js/angular.js"></script>
+</head>
+<body ng-app="app">
+  <div id="wrap">
+    <div class="nav">
+      <ul>
+        <li class="active">ADD</li>
+        <li>UPDATE</li>
+      </ul>
+    </div>
+    <div class="content">
+      <div class="add">
+        <div class="upload">
+          <div class="upload-files">
+            <header>
+              <p>
+                <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                <span class="up">up</span>
+                <span class="load">load</span>
+              </p>
+            </header>
+            <div class="body" id="drop">
+              <i class="fa fa-file-text-o pointer-none" aria-hidden="true"></i>
+              <p class="pointer-none"><b>拖放到这里</b> files here <br /> or <a href="" id="triggerFile">浏览</a>开始上传</p>
+              <input type="file" multiple="multiple" />
+            </div>
+            <footer>
+              <div class="divider">
+                <span><AR>FILES</AR></span>
+              </div>
+              <div class="list-files">
+                <!--   template   -->
+              </div>
+              <button class="importar">UPDATE FILES</button>
+            </footer>
+          </div>
+        </div>
+      </div>
+      <div class="update" ng-controller="my">
+        <div class="left">
+          <h3>请选择</h3>
+          <div>
+            <select name="college" id="college" ng-options="c.college for c in colleges" ng-model="college" ng-change="changeMajor(college)">
+              <option value="">学院</option>
+            </select>
+            <select name="major" id="major" ng-options="m.major for m in college.majors" ng-model="major" ng-change="changeCourse(major)">
+              <option value="">专业</option>
+            </select>
+
+            <select name="tea" id="tea" ng-options="tea for tea in major.children" ng-model="tea">
+              <option value="">课程</option>
+            </select>
+          </div>
+
+        </div>
+        <div class="right">
+          <table>
+            <tr>
+              <th>账号</th><th>姓名</th><th>性别</th><th>生日</th><th>住址</th><th>手机号</th><th>邮箱</th>
+            </tr>
+            <tr ng-repeat="t in teaches">
+              <td>{{t.id}}</td><td>{{t.name}}</td><td>{{t.sex}}</td><td>{{t.birth|date:'yyyy-MM-dd'}}</td><td>{{t.address}}</td><td>{{t.phone}}</td><td>{{t.email}}</td>
+              <td><a href="javascript:;" ng-click="update(t.name)">修改</a></td>
+            </tr>
+          </table>
+          <div ng-show="updateDetail" class="updateDetail">
+            <span>姓名：</span><input type="text" ng-model="teaName"><br />
+            <span>性别：</span><input type="text" ng-model="teaSex"><br />
+            <span>生日：</span><input type="text" ng-model="teaBirth"><br />
+            <span>住址：</span><input type="text" ng-model="teaAddress"><br />
+            <span>手机号：</span><input type="text" ng-model="teaPhone"><br />
+            <span>邮箱：</span><input type="text" ng-model="teaEmail"><br /><br />
+            <a href="javascript:;" ng-click="updateSubmit()" >提交</a><br />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="../js/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="../js/add.js"></script>
+<script type="text/javascript" src="../js/home.js"></script>
+</body>
+</html>

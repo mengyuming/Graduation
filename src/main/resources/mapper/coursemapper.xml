@@ -26,7 +26,10 @@
     <insert id="addAllCourse" parameterType="java.util.List">
         insert into teacher values
         <foreach collection="list" item="addCourse" index="index" separator =",">
-            (#{adduser.name})
+            (#{addCourse.cno},#{addCourse.cname},#{addCourse.weekth},#{addCourse.day}
+            ,#{addCourse.time},#{addCourse.pname},#{addCourse.tid},#{addCourse.grade}
+            ,#{addCourse.place},#{addCourse.depart},#{addCourse.studentnumber},#{addCourse.campus}
+            ,#{addCourse.tname},#{addCourse.type})
         </foreach>
     </insert>
 </mapper>

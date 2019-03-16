@@ -64,6 +64,7 @@ public class CourseController {
     @ApiOperation("根据学院，专业与名称获取课程")
     @RequestMapping(value = "/getTeaCourse",method = RequestMethod.GET)
     public Object getTeaCourse(String depart,String professional,String coursename,String teaname){
+	    //同一个课程可以由不同的老师带  所以也需要课程名与老师名唯一确定一个课程
         List<Course> teaCourse = courseService.getTeaCourse(depart, professional, coursename,teaname);
         return teaCourse;
     }
