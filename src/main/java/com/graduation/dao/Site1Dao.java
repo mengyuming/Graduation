@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.List;
+
 @Mapper
 public interface Site1Dao {
 
@@ -14,4 +16,6 @@ public interface Site1Dao {
 
     @Insert("insert into sitevalue (cno,date,hour,type,value) values (#{cno},#{date},#{hour},#{type},#{value})")
     public void updateSite(Site site1);
+
+    public void addAllSite(List<Site> list);
 }
