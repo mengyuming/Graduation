@@ -1,10 +1,12 @@
 package com.graduation.service;
 
 import com.graduation.bean.Index;
+import com.graduation.config.SpringBeanTool;
 import com.graduation.tools.MyModelTrain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.ContextLoader;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -23,9 +25,13 @@ public class TrainModelServcice {
     @Autowired
     private IndexService indexService;
 
+    @Autowired
+    private SpringBeanTool springBeanTool;
+
     @Async
     public Object trainModel(String type, HttpServletRequest request) {
-        ServletContext servletContext = request.getServletContext();
+        System.out.println("进来训练内部了");
+        ServletContext servletContext = springBeanTool.getServletContext();
         FileWriter fileWriter=null;
         BufferedWriter bufferedWriter=null;
         try{
@@ -41,7 +47,6 @@ public class TrainModelServcice {
             if(type.equals("学生")){
                 System.out.println("开始写入数据");
                 for(int i=0 ; i<1000 ; i++){
-
                     for(int j=0 ; j<20 ; j++){
                         random = Math.random();
                         str=String.valueOf(random).substring(0,3);

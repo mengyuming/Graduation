@@ -2,6 +2,7 @@ package com.graduation.service;
 
 import com.graduation.bean.Index;
 import com.graduation.bean.User;
+import com.graduation.config.SpringBeanTool;
 import com.graduation.dao.IndexDao;
 import com.graduation.tools.BPNetwork;
 import com.graduation.tools.ConcurenceRunner;
@@ -39,9 +40,12 @@ public class IndexService {
     @Autowired
     MyRunner myRunner;
 
+    @Autowired
+    private SpringBeanTool springBeanTool;
+
     @Transactional(rollbackFor = Exception.class)
     public String addAllIndex(Index index, HttpServletRequest request) {
-        ServletContext app = request.getServletContext();
+        ServletContext app = springBeanTool.getServletContext();
         index.setTimes(LocalDate.now().toString());
         User user = (User)request.getSession().getAttribute("user");
 //        UserDetails userDetail = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
